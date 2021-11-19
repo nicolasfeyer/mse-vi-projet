@@ -1,19 +1,22 @@
 <template>
   <div id="app">
-    <WorldMap/>
-    <VueHorizontalTimeline :items="items"/>
+    <!--    <WorldMap/>-->
+    <WorldMapZoom/>
+    <!--    <VueHorizontalTimeline :items="items"/>-->
   </div>
 </template>
 
 <script>
-import WorldMap from "@/components/WorldMap";
-import VueHorizontalTimeline from "vue-horizontal-timeline";
+//import WorldMap from "@/components/WorldMap";
+import WorldMapZoom from "@/components/WorldMapZoom";
+//import VueHorizontalTimeline from "vue-horizontal-timeline";
 
 export default {
   name: 'App',
   components: {
-    WorldMap,
-    VueHorizontalTimeline
+    //WorldMap,
+    WorldMapZoom,
+    //VueHorizontalTimeline
   },
   data() {
     const example1 = {
