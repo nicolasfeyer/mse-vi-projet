@@ -9,7 +9,10 @@
   },
   "dependencies": {
     "core-js": "^3.6.5",
-    "vue": "^2.6.11"
+    "vue": "^2.6.11",
+    "vue-horizontal-timeline": "^0.10.0",
+    "vue-map-chart": "0.0.2",
+    "world-map-vue": "^0.2.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
