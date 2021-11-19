@@ -1,5 +1,13 @@
 # migraph
 
+## Ideas
+
+https://morioh.com/p/735c37d666ad (SVG-Map)
+
+https://github.com/guastallaigor/vue-horizontal-timeline (Timeline)
+
+https://github.com/walkerz88/vue-simple-svg-map (World Map Component)
+
 ## Project setup
 ```
 npm install
