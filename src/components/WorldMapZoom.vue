@@ -54,7 +54,7 @@
     <div class="justify-content-md-center" style="position: absolute; top:0px; right:10px ">
       <b-card style="border: none; background-color: rgba(0,0,0,0)">
         <b-button pill variant="outline-secondary" :class="{ top_but: !showGraph, top_but_select: showGraph }"
-                  @click="switchShowGaph()">Graph
+                  @click="switchShowGaph">Graph
         </b-button>
       </b-card>
     </div>
@@ -236,7 +236,7 @@ export default {
     }
   },
   methods: {
-    switchShowGaph: function () {
+    switchShowGaph() {
       this.showGraph = !this.showGraph;
     },
     changeIsOpen(val) {
