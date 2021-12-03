@@ -242,192 +242,193 @@ export default {
     changeIsOpen(val) {
       this.isSidebarOpen = val;
     },
-  },
-  /* --------------------------
-   happends when mouse goes over a country
-   - change its color and border to a lighter gray
-   - display its name on top of window
-  --------------------------*/
-  overCountry: function (elem) {
-    if (this.overCountryElem == null && elem.name != this.clickCountryName) {
-      this.overCountryElem = JSON.parse(JSON.stringify(elem));
-      //removing old elem
-      this.overCountryID = map.locations.indexOf(elem);
-      if (this.overCountryID > -1) {
-        map.locations.splice(this.overCountryID, 1);
+
+    /* --------------------------
+     happends when mouse goes over a country
+     - change its color and border to a lighter gray
+     - display its name on top of window
+    --------------------------*/
+    overCountry: function (elem) {
+      if (this.overCountryElem == null && elem.name != this.clickCountryName) {
+        this.overCountryElem = JSON.parse(JSON.stringify(elem));
+        //removing old elem
+        this.overCountryID = map.locations.indexOf(elem);
+        if (this.overCountryID > -1) {
+          map.locations.splice(this.overCountryID, 1);
+        }
+        this.overCountryName = this.overCountryElem.name;
+        this.overCountryElem.stroke = black;
+        map.locations.push(this.overCountryElem);
+        this.overCountryID = map.locations.indexOf(this.overCountryElem);
       }
-      this.overCountryName = this.overCountryElem.name;
-      this.overCountryElem.stroke = black;
-      map.locations.push(this.overCountryElem);
-      this.overCountryID = map.locations.indexOf(this.overCountryElem);
-    }
-  },
-  /* --------------------------
-   happends when mouse leaves a country
-   - put back the previous elem
-   - remove display name
-  --------------------------*/
-  leaveCountry: function (elem) {
-    if (this.overCountryElem != null && elem.name != this.clickCountryName && this.overCountryElem.name != this.clickCountryName) {
-      this.overCountryElem.stroke = whiteBorder;
-      this.overCountryName = "World";
+    },
+    /* --------------------------
+     happends when mouse leaves a country
+     - put back the previous elem
+     - remove display name
+    --------------------------*/
+    leaveCountry: function (elem) {
+      if (this.overCountryElem != null && elem.name != this.clickCountryName && this.overCountryElem.name != this.clickCountryName) {
+        this.overCountryElem.stroke = whiteBorder;
+        this.overCountryName = "World";
+        this.overCountryElem = null;
+      }
+    },
+    /* --------------------------
+     happends when mouse click on a country
+     - change its color and border to blue
+     - display sidebar with info
+    --------------------------*/
+    clickCountry: function (elem) {
+      this.clickedCountryData = this.worldData[this.yearSelect][elem.id.toUpperCase()]
+      this.drawMap();
+      //this.loadSidebarData();
       this.overCountryElem = null;
-    }
-  },
-  /* --------------------------
-   happends when mouse click on a country
-   - change its color and border to blue
-   - display sidebar with info
-  --------------------------*/
-  clickCountry: function (elem) {
-    this.clickedCountryData = this.worldData[this.yearSelect][elem.id.toUpperCase()]
-    this.drawMap();
-    //this.loadSidebarData();
-    this.overCountryElem = null;
-    this.isSidebarOpen = true
-    elem.stroke = whiteBorder;
-    elem.fill = "blue";
-  },
+      this.isSidebarOpen = true
+      elem.stroke = whiteBorder;
+      elem.fill = "blue";
+    },
 
-  // loadSidebarData: function () {
-  //   if (this.clickCountryElem) {
-  //     this.clickCountryPic = "https://www.worldometers.info/img/flags/" + this.clickCountryElem.id + "-flag.gif" //"https://en.wikipedia.org/wiki/File:Flag_of_" + this.clickCountryName + ".svg";
-  //     this.clickCountryElem.stroke = whiteBorder;
-  //     this.clickCountryElem.fill = "blue";
-  //   }
-  // },
+    // loadSidebarData: function () {
+    //   if (this.clickCountryElem) {
+    //     this.clickCountryPic = "https://www.worldometers.info/img/flags/" + this.clickCountryElem.id + "-flag.gif" //"https://en.wikipedia.org/wiki/File:Flag_of_" + this.clickCountryName + ".svg";
+    //     this.clickCountryElem.stroke = whiteBorder;
+    //     this.clickCountryElem.fill = "blue";
+    //   }
+    // },
 
-  changeData: function (dataType) {
-    (this.dataType != "") ? this.isActiveBut[this.dataType] = false : "";
-    this.dataType = (this.dataType == dataType) ? "" : dataType;
-    (this.dataType != "") ? this.isActiveBut[this.dataType] = true : "";
-    this.drawMap();
-  },
+    changeData: function (dataType) {
+      (this.dataType != "") ? this.isActiveBut[this.dataType] = false : "";
+      this.dataType = (this.dataType == dataType) ? "" : dataType;
+      (this.dataType != "") ? this.isActiveBut[this.dataType] = true : "";
+      this.drawMap();
+    },
 
-  drawMap: function () {
-    map.locations.forEach(element => {
-      element.stroke = whiteBorder;
-      try {
-        element.fill = this.getColor(this.yearSelect, element.id.toUpperCase(), this.dataType, this.scaleFactor[this.dataType], true, this.logBool[this.dataType], this.padding[this.dataType], this.added[this.dataType]);
-      } catch {
-        element.fill = noDataGrey;
+    drawMap: function () {
+      map.locations.forEach(element => {
+        element.stroke = whiteBorder;
+        try {
+          element.fill = this.getColor(this.yearSelect, element.id.toUpperCase(), this.dataType, this.scaleFactor[this.dataType], true, this.logBool[this.dataType], this.padding[this.dataType], this.added[this.dataType]);
+        } catch {
+          element.fill = noDataGrey;
+        }
+      });
+      this.updateLegend(this.scaleFactor[this.dataType], this.logBool[this.dataType], this.padding[this.dataType]);
+      //this.loadSidebarData()
+    },
+
+    getColor: function (year, country, type, factor, reverse, log, padding, added) {
+      if (type == "incomeLevel") {
+        return this.getColorForIncome(year, country, type);
       }
-    });
-    this.updateLegend(this.scaleFactor[this.dataType], this.logBool[this.dataType], this.padding[this.dataType]);
-    //this.loadSidebarData()
-  },
+      if (type == "migration_perc" || type == "net_migration") {
+        return this.getColorForNeg(year, country, type, factor, reverse, log, padding, added);
+      }
+      let color_val = parseFloat(this.worldData[year][country][type]);
+      if (!color_val) {
+        return noDataGrey;
+      }
+      color_val -= padding;
+      if (color_val < 0) {
+        color_val = 0;
+      }
+      color_val *= factor;
+      if (log) {
+        color_val = (Math.log2(color_val + 2) - 1) * (100 / (Math.log2(100)));
+      }
+      color_val += added;
+      if (color_val > 100) {
+        color_val = 100;
+      }
+      if (reverse) {
+        color_val = 100 - color_val;
+      }
+      return "hsl(" + color_val + ", 50%, 50%)";
+    },
 
-  getColor: function (year, country, type, factor, reverse, log, padding, added) {
-    if (type == "incomeLevel") {
-      return this.getColorForIncome(year, country, type);
-    }
-    if (type == "migration_perc" || type == "net_migration") {
-      return this.getColorForNeg(year, country, type, factor, reverse, log, padding, added);
-    }
-    let color_val = parseFloat(this.worldData[year][country][type]);
-    if (!color_val) {
-      return noDataGrey;
-    }
-    color_val -= padding;
-    if (color_val < 0) {
-      color_val = 0;
-    }
-    color_val *= factor;
-    if (log) {
-      color_val = (Math.log2(color_val + 2) - 1) * (100 / (Math.log2(100)));
-    }
-    color_val += added;
-    if (color_val > 100) {
-      color_val = 100;
-    }
-    if (reverse) {
-      color_val = 100 - color_val;
-    }
-    return "hsl(" + color_val + ", 50%, 50%)";
-  },
+    getColorForIncome: function (year, country, type) {
+      let color_val = this.worldData[year][country][type];
+      if (!color_val) {
+        return noDataGrey;
+      }
+      let color = 310
+      switch (color_val) {
+        case 'Low income':
+          color = 0;
+          break;
+        case 'Lower middle income':
+          color = 40;
+          break;
+        case 'Upper middle income':
+          color = 60;
+          break;
+        case 'High income':
+          color = 100;
+          break;
+        default:
+          console.log("default" + color_val + " " + country);
+      }
+      return "hsl(" + color + ", 50%, 50%)";
+    },
 
-  getColorForIncome: function (year, country, type) {
-    let color_val = this.worldData[year][country][type];
-    if (!color_val) {
-      return noDataGrey;
-    }
-    let color = 310
-    switch (color_val) {
-      case 'Low income':
-        color = 0;
-        break;
-      case 'Lower middle income':
-        color = 40;
-        break;
-      case 'Upper middle income':
-        color = 60;
-        break;
-      case 'High income':
-        color = 100;
-        break;
-      default:
-        console.log("default" + color_val + " " + country);
-    }
-    return "hsl(" + color + ", 50%, 50%)";
-  },
+    getColorForNeg: function (year, country, type, factor, reverse, log, padding, added) {
+      let color_val = parseFloat(this.worldData[year][country][type]);
+      if (!color_val) {
+        return noDataGrey;
+      }
+      let signcolor = 100;
+      if (color_val < 0) {
+        color_val = -color_val;
+        signcolor = 0;
+      }
+      color_val -= padding;
+      if (color_val < 0) {
+        color_val = 0;
+      }
+      color_val *= factor;
+      if (log) {
+        color_val = (Math.log2(color_val + 2) - 1) * (100 / (Math.log2(100)));
+      }
+      color_val += added;
+      if (color_val > 100) {
+        color_val = 100;
+      }
+      /*if(reverse) {
+        color_val = 100 - color_val;
+      }*/
+      return "hsl(" + signcolor + ", " + color_val + "%, 50%)";
+    },
 
-  getColorForNeg: function (year, country, type, factor, reverse, log, padding, added) {
-    let color_val = parseFloat(this.worldData[year][country][type]);
-    if (!color_val) {
-      return noDataGrey;
+    updateLegend: function (factor, log, padding) {
+      if (log) {
+        this.legendScale[0] = ((Math.pow(2, ((0) + 1)) - 2) / factor + padding);
+        this.legendScale[1] = ((Math.pow(2, ((25 / 100 * Math.log2(100)) + 1)) - 2) / factor + padding);
+        this.legendScale[2] = ((Math.pow(2, ((50 / 100 * Math.log2(100)) + 1)) - 2) / factor + padding);
+        this.legendScale[3] = ((Math.pow(2, ((75 / 100 * Math.log2(100)) + 1)) - 2) / factor + padding);
+        this.legendScale[4] = ((Math.pow(2, ((100 / 100 * Math.log2(100)) + 1)) - 2) / factor + padding);
+      } else {
+        this.legendScale[0] = ((0 / factor) + padding);
+        this.legendScale[1] = ((25 / factor) + padding);
+        this.legendScale[2] = ((50 / factor) + padding);
+        this.legendScale[3] = ((75 / factor) + padding);
+        this.legendScale[4] = ((100 / factor) + padding);
+      }
+      if (this.dataType == "migration_perc") {
+        this.legendScale[0] *= 100;
+        this.legendScale[1] *= 100;
+        this.legendScale[2] *= 100;
+        this.legendScale[3] *= 100;
+        this.legendScale[4] *= 100;
+      }
+      this.legendScale[0] = this.legendScale[0].toFixed(0);
+      this.legendScale[1] = this.legendScale[1].toFixed(0);
+      this.legendScale[2] = this.legendScale[2].toFixed(0);
+      this.legendScale[3] = this.legendScale[3].toFixed(0);
+      this.legendScale[4] = this.legendScale[4].toFixed(0);
     }
-    let signcolor = 100;
-    if (color_val < 0) {
-      color_val = -color_val;
-      signcolor = 0;
-    }
-    color_val -= padding;
-    if (color_val < 0) {
-      color_val = 0;
-    }
-    color_val *= factor;
-    if (log) {
-      color_val = (Math.log2(color_val + 2) - 1) * (100 / (Math.log2(100)));
-    }
-    color_val += added;
-    if (color_val > 100) {
-      color_val = 100;
-    }
-    /*if(reverse) {
-      color_val = 100 - color_val;
-    }*/
-    return "hsl(" + signcolor + ", " + color_val + "%, 50%)";
-  },
-
-  updateLegend: function (factor, log, padding) {
-    if (log) {
-      this.legendScale[0] = ((Math.pow(2, ((0) + 1)) - 2) / factor + padding);
-      this.legendScale[1] = ((Math.pow(2, ((25 / 100 * Math.log2(100)) + 1)) - 2) / factor + padding);
-      this.legendScale[2] = ((Math.pow(2, ((50 / 100 * Math.log2(100)) + 1)) - 2) / factor + padding);
-      this.legendScale[3] = ((Math.pow(2, ((75 / 100 * Math.log2(100)) + 1)) - 2) / factor + padding);
-      this.legendScale[4] = ((Math.pow(2, ((100 / 100 * Math.log2(100)) + 1)) - 2) / factor + padding);
-    } else {
-      this.legendScale[0] = ((0 / factor) + padding);
-      this.legendScale[1] = ((25 / factor) + padding);
-      this.legendScale[2] = ((50 / factor) + padding);
-      this.legendScale[3] = ((75 / factor) + padding);
-      this.legendScale[4] = ((100 / factor) + padding);
-    }
-    if (this.dataType == "migration_perc") {
-      this.legendScale[0] *= 100;
-      this.legendScale[1] *= 100;
-      this.legendScale[2] *= 100;
-      this.legendScale[3] *= 100;
-      this.legendScale[4] *= 100;
-    }
-    this.legendScale[0] = this.legendScale[0].toFixed(0);
-    this.legendScale[1] = this.legendScale[1].toFixed(0);
-    this.legendScale[2] = this.legendScale[2].toFixed(0);
-    this.legendScale[3] = this.legendScale[3].toFixed(0);
-    this.legendScale[4] = this.legendScale[4].toFixed(0);
   }
 }
-}
+
 
 </script>
 
