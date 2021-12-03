@@ -1,6 +1,6 @@
 <template>
   <div style="width: 100%; height: 100%;">
-    <div style="border-style: solid; border-color: #333333; border-width: 1px; width: 100%; height: 100%; position: fixed; top: 0px; left: 0px; z-index: 0;">
+    <div v-if="!showGraph" style="border-style: solid; border-color: #333333; border-width: 1px; width: 100%; height: 100%; position: fixed; top: 0px; left: 0px; z-index: 0;">
         <SvgMap
           :map="map.locations"
           :wrapper-styles="{position: 'relative', width: '100%', height: '100%'}"
@@ -17,6 +17,9 @@
           @click="clickCountry"
         />
     </div>
+    <div v-if="showGraph" style="width: 100%; height: 100%; position: fixed; top: 0px; left: 0px;">
+      <WorldChart :data='worldData' :country='clickCountryElem.id.toUpperCase()' :dataType='dataType'/>
+    </div>
     <!-- Bouton de selection d'affichage -->
     <div class="justify-content-md-center" style="position: absolute; top:0px; width:100%">
       <b-row class="justify-content-md-center">
@@ -31,8 +34,14 @@
         </b-col>
       </b-row>
     </div>
+    <!-- Bouton de changement de vue -->
+    <div class="justify-content-md-center" style="position: absolute; top:0px; right:10px ">
+      <b-card style="border: none; background-color: rgba(0,0,0,0)">
+        <b-button pill variant="outline-secondary" :class="{ top_but: !showGraph, top_but_select: showGraph }" @click="switchShowGaph()">Graph</b-button>
+      </b-card>
+    </div>
     <!-- Titre du pays en haut de la page -->
-    <div class="justify-content-md-center">
+    <div v-if="!showGraph" class="justify-content-md-center">
       <b-row class="justify-content-md-center">
         <b-col col lg="3">
           <b-card>
@@ -42,7 +51,7 @@
       </b-row>
     </div>
     <!-- Slider année -->
-    <div class="justify-content-md-center" style="position: absolute; bottom:10px; width:100%">
+    <div v-if="!showGraph" class="justify-content-md-center" style="position: absolute; bottom:10px; width:100%">
       <b-row class="justify-content-md-center">
         <b-col col lg="3">
           <b-card :title="yearSelect" sub-title="Move cursor to change year">
@@ -52,7 +61,7 @@
       </b-row>
     </div>
     <!-- Légende -->
-    <div v-if="!isActiveBut['incomeLevel']" class="justify-content-md-center" style="position: absolute; left:10px; bottom:130px; width:110px">
+    <div v-if="!isActiveBut['incomeLevel'] && !showGraph" class="justify-content-md-center" style="position: absolute; left:10px; bottom:130px; width:110px">
       <b-container>
           <b-card class="legend_card">
             <span>Legend</span>
@@ -87,7 +96,7 @@
           </b-card>
       </b-container>
     </div>
-    <div v-if="isActiveBut['incomeLevel']" class="justify-content-md-center" style="position: absolute; left:10px; bottom:130px; width:110px">
+    <div v-if="isActiveBut['incomeLevel'] && !showGraph" class="justify-content-md-center" style="position: absolute; left:10px; bottom:130px; width:110px">
       <b-container>
           <b-card class="legend_card">
             <span>Legend</span>
@@ -113,7 +122,7 @@
       </b-container>
     </div>
     <!-- SideBar -->
-    <b-sidebar v-model="isSidebarOpen" id="sidebar-right" :title=clickCountryName right shadow>
+    <b-sidebar v-if="!showGraph" v-model="isSidebarOpen" id="sidebar-right" :title=clickCountryName right shadow>
       <div class="px-3 py-2">
         <b-img :src=clickCountryPic fluid thumbnail></b-img>
         <span v-html="clickCountryDescription"></span> 
@@ -129,6 +138,7 @@ import SvgMap from 'vue-simple-svg-map'
 import map from '@svg-maps/world'
 
 import json from '../assets/worldData.json'
+import WorldChart from "./WorldChart";
 
 //const lightGrey =  "#aaaaaa";
 const black = "hsl(100, 60%, 0%)";
@@ -138,7 +148,8 @@ const whiteBorder = "#eeeeee";
 export default {
   name: "WorldMapZoom",
   components: {
-    SvgMap
+    SvgMap,
+    WorldChart
   },
   mounted() {
     map.locations = map.locations.map(function (row) {
@@ -151,6 +162,7 @@ export default {
       worldData: json,
       yearSelect: "2018",
       map,
+      showGraph: false,
       zoomFactor: 0.8,
       minSize: 1000,
       maxSize: 15000,
@@ -177,6 +189,9 @@ export default {
     }
   },
   methods:{
+      switchShowGaph: function(){
+        this.showGraph = !this.showGraph;
+      },
     /* --------------------------
      happends when mouse goes over a country
      - change its color and border to a lighter gray
