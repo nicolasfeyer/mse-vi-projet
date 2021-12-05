@@ -28,23 +28,23 @@
           <b-card style="border: none; background-color: rgba(0,0,0,0)">
             <b-button pill variant="outline-secondary"
                       :class="{ top_but: !isActiveBut['population'], top_but_select: isActiveBut['population'] }"
-                      @click="changeData('population')">population
+                      @click="changeData('population')">Population
             </b-button>
             <b-button pill variant="outline-secondary"
                       :class="{ top_but: !isActiveBut['pop_density'], top_but_select: isActiveBut['pop_density'] }"
-                      @click="changeData('pop_density')">pop_density
+                      @click="changeData('pop_density')">Population density
             </b-button>
             <b-button pill variant="outline-secondary"
                       :class="{ top_but: !isActiveBut['net_migration'], top_but_select: isActiveBut['net_migration'] }"
-                      @click="changeData('net_migration')">net_migration
+                      @click="changeData('net_migration')">Net migration
             </b-button>
             <b-button pill variant="outline-secondary"
                       :class="{ top_but: !isActiveBut['migration_perc'], top_but_select: isActiveBut['migration_perc'] }"
-                      @click="changeData('migration_perc')">migration_perc
+                      @click="changeData('migration_perc')">Migration percentage
             </b-button>
             <b-button pill variant="outline-secondary"
                       :class="{ top_but: !isActiveBut['incomeLevel'], top_but_select: isActiveBut['incomeLevel'] }"
-                      @click="changeData('incomeLevel')">incomeLevel
+                      @click="changeData('incomeLevel')">Income Level
             </b-button>
           </b-card>
         </b-col>
@@ -110,6 +110,7 @@ export default {
       let color = noDataGrey; //'#'+(Math.random()*0xFFFFFF<<0).toString(16);
       return {name: row.name, id: row.id, d: row.path, stroke: whiteBorder, fill: color}
     })
+    this.changeData("population");
   },
   data() {
     return {
@@ -151,7 +152,7 @@ export default {
         "incomeLevel": false
       },
       isActiveBut: {
-        "population": false,
+        "population": true,
         "pop_density": false,
         "net_migration": false,
         "migration_perc": false,
