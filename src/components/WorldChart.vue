@@ -11,8 +11,7 @@
       <b-alert v-model="showDismissibleAlert" variant="danger" dismissible>
         MAx number of country reached !
         </b-alert>
-      <la-cartesian autoresize :height="windowHeight"  :data="values"> <!--:bound="[n => n - 10, n => n + 10]"-->
-        <span v-html="HTMLcontent"></span>
+      <la-cartesian v-if="countrySelect.length > 0" autoresize :height="windowHeight"  :data="values"> <!--:bound="[n => n - 10, n => n + 10]"-->
         <la-line :width="2" dashed dot animated curve :label="countrySelect[0]" :prop="countrySelect[0]"></la-line>
         <la-line :width="2" dashed dot animated curve :label="countrySelect[1]" :prop="countrySelect[1]"></la-line>
         <la-line :width="2" dashed dot animated curve :label="countrySelect[2]" :prop="countrySelect[2]"></la-line>
@@ -20,7 +19,7 @@
         <la-line :width="2" dashed dot animated curve :label="countrySelect[4]" :prop="countrySelect[4]"></la-line>
         <la-line :width="2" dashed dot animated curve :label="countrySelect[5]" :prop="countrySelect[5]"></la-line>
         <la-x-axis prop="name" class="x-axis-style"></la-x-axis>
-        <la-y-axis :format="v => Math.round(v)"></la-y-axis>
+        <la-y-axis :format="formatLegend"></la-y-axis>
         <la-tooltip></la-tooltip>
         <la-legend selectable></la-legend>
         <la-y-marker dashed :value="0" label="0"></la-y-marker>
@@ -52,7 +51,8 @@ export default {
         windowHeight: window.innerHeight - 300,
         countrySelect: [],
         countrySelected: "",
-        showDismissibleAlert: false
+        showDismissibleAlert: false,
+        switch: false
     }),
 
     methods: {
@@ -67,7 +67,6 @@ export default {
                     this.values.push(this.getCountryData(i));
                 }
             }
-            console.log(this.values)
         },
         getCountryData(i) {
             let val = {name: i}
@@ -106,6 +105,32 @@ export default {
         removeCountry(elem){
             this.countrySelect.splice(this.countrySelect.indexOf(elem), 1);
             this.drawGraph()
+        },
+        formatLegend(v){
+            if(this.dataType == 'population'){
+                if(this.switch){
+                    this.switch = false;
+                    return "";
+                } else {
+                    this.switch = true;
+                }
+            }
+            let exp = Math.round(Math.log10(Math.abs(v)))
+            if(exp >= 9){
+                return "" + Math.round((v/1000000000)*10) /10  + "G" ;
+            }
+            else if(exp >= 6){
+                return "" + Math.round((v/1000000)*10) /10  + "M" ;
+            }
+            else if(exp >= 3){
+                return "" + Math.round((v/1000)*10) /10  + "k" ;
+            }
+            if(this.dataType == 'migration_perc'){
+                return Math.round((v)*100) + "%";
+            }
+            else {
+                return Math.round((v)*10) /10;
+            }
         }
     },
 
