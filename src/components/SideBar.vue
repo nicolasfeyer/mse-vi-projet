@@ -8,7 +8,7 @@
         <span style="font-weight: 900;">{{ this.countryData["capitalCity"] }}</span>
       </div>
       <div class="description_row">
-        <span style="color: #666666">{{ this.countryData["latitude"] + this.countryData["longitude"] }}</span>
+        <span style="color: #666666; margin-left:auto">{{ this.countryData["latitude"]}}, {{this.countryData["longitude"] }}</span>
       </div>
       <div class="description_row">
         <span>Region : </span>

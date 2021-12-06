@@ -69,7 +69,7 @@
       </b-row>
     </div>
     <!-- Slider année -->
-    <Slider :showGraph="showGraph" :yearSelect="yearSelect" :drawMap="drawMap" @changeYear="changeYear"></Slider>
+    <Slider v-if="dataType != 'incomeLevel'" :showGraph="showGraph" :yearSelect="yearSelect" :drawMap="drawMap" :dataType='dataType' @changeYear="changeYear"></Slider>
     <!-- Légende -->
     <Legend :isActiveBut="isActiveBut" :legendScale="legendScale" :showGraph="showGraph"></Legend>
     <!-- SideBar -->
@@ -171,6 +171,7 @@ export default {
     },
     changeYear(val) {
       this.yearSelect = val;
+      this.clickedCountryData = this.worldData[this.yearSelect][this.clickCountryElem];
       this.drawMap();
     },
 
@@ -212,6 +213,7 @@ export default {
     --------------------------*/
     clickCountry: function (elem) {
       this.clickedCountryData = this.worldData[this.yearSelect][elem.id.toUpperCase()]
+      this.clickCountryElem = elem.id.toUpperCase();
       this.drawMap();
       //this.loadSidebarData();
       this.overCountryElem = null;
