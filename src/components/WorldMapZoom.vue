@@ -231,9 +231,12 @@ export default {
     // },
 
     changeData: function (dataType) {
-      (this.dataType != "") ? this.isActiveBut[this.dataType] = false : "";
+      /*(this.dataType != "") ? this.isActiveBut[this.dataType] = false : "";
       this.dataType = (this.dataType == dataType) ? "" : dataType;
-      (this.dataType != "") ? this.isActiveBut[this.dataType] = true : "";
+      (this.dataType != "") ? this.isActiveBut[this.dataType] = true : "";*/
+      (this.dataType != "") ? this.isActiveBut[this.dataType] = false : "";
+      this.dataType = dataType
+      this.isActiveBut[this.dataType] = true
       this.drawMap();
     },
 
