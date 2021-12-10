@@ -26,23 +26,23 @@
       <b-row class="justify-content-md-center">
         <b-col col>
           <b-card style="border: none; background-color: rgba(0,0,0,0)">
-            <b-button pill variant="outline-secondary"
+            <b-button v-shortkey="['1']" pill variant="outline-secondary" @shortkey="changeData('population')"
                       :class="{ top_but: !isActiveBut['population'], top_but_select: isActiveBut['population'] }"
                       @click="changeData('population')">Population
             </b-button>
-            <b-button pill variant="outline-secondary"
+            <b-button v-shortkey="['2']" pill variant="outline-secondary" @shortkey="changeData('pop_density')"
                       :class="{ top_but: !isActiveBut['pop_density'], top_but_select: isActiveBut['pop_density'] }"
                       @click="changeData('pop_density')">Population density
             </b-button>
-            <b-button pill variant="outline-secondary"
+            <b-button v-shortkey="['3']" pill variant="outline-secondary" @shortkey="changeData('net_migration')"
                       :class="{ top_but: !isActiveBut['net_migration'], top_but_select: isActiveBut['net_migration'] }"
                       @click="changeData('net_migration')">Net migration
             </b-button>
-            <b-button pill variant="outline-secondary"
+            <b-button v-shortkey="['4']" pill variant="outline-secondary" @shortkey="changeData('migration_perc')"
                       :class="{ top_but: !isActiveBut['migration_perc'], top_but_select: isActiveBut['migration_perc'] }"
                       @click="changeData('migration_perc')">Migration percentage
             </b-button>
-            <b-button pill variant="outline-secondary"
+            <b-button v-shortkey="['5']" pill variant="outline-secondary" @shortkey="changeData('incomeLevel')"
                       :class="{ top_but: !isActiveBut['incomeLevel'], top_but_select: isActiveBut['incomeLevel'] }"
                       @click="changeData('incomeLevel')">Income Level
             </b-button>
@@ -90,7 +90,9 @@ import WorldChart from "./WorldChart";
 
 import SideBar from "@/components/SideBar";
 import Slider from "@/components/Slider";
+import Vue from "vue";
 
+Vue.use(require('vue-shortkey'))
 //const lightGrey =  "#aaaaaa";
 const black = "hsl(100, 60%, 0%)";
 const noDataGrey = "hsl(100, 0%, 10%)";
