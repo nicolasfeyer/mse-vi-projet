@@ -45,7 +45,7 @@
                       :class="{ top_but: !isActiveBut['migration_perc'], top_but_select: isActiveBut['migration_perc'] }"
                       @click="changeData('migration_perc')">Migration percentage
             </b-button>
-            <b-button v-shortkey="['5']" pill variant="outline-secondary" @shortkey="changeData('incomeLevel')"
+            <b-button v-if="!showGraphCountry" v-shortkey="['5']" pill variant="outline-secondary" @shortkey="changeData('incomeLevel')"
                       :class="{ top_but: !isActiveBut['incomeLevel'], top_but_select: isActiveBut['incomeLevel'] }"
                       @click="changeData('incomeLevel')">Income Level
             </b-button>
