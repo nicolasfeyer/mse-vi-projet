@@ -117,7 +117,7 @@ export default {
             }
             let exp = Math.round(Math.log10(Math.abs(v)))
             if(exp >= 9){
-                return "" + Math.round((v/1000000000)*10) /10  + "G" ;
+                return "" + Math.round((v/1000000000)*10) /10  + "B" ;
             }
             else if(exp >= 6){
                 return "" + Math.round((v/1000000)*10) /10  + "M" ;

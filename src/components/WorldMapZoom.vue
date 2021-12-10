@@ -373,11 +373,31 @@ export default {
         this.legendScale[3] *= 100;
         this.legendScale[4] *= 100;
       }
-      this.legendScale[0] = this.legendScale[0].toFixed(0);
-      this.legendScale[1] = this.legendScale[1].toFixed(0);
-      this.legendScale[2] = this.legendScale[2].toFixed(0);
-      this.legendScale[3] = this.legendScale[3].toFixed(0);
-      this.legendScale[4] = this.legendScale[4].toFixed(0);
+      
+      this.legendScale[0] = this.roundLegend(this.legendScale[0].toFixed(0));
+      this.legendScale[1] = this.roundLegend(this.legendScale[1].toFixed(0));
+      this.legendScale[2] = this.roundLegend(this.legendScale[2].toFixed(0));
+      this.legendScale[3] = this.roundLegend(this.legendScale[3].toFixed(0));
+      this.legendScale[4] = this.roundLegend(this.legendScale[4].toFixed(0));
+    },
+
+    roundLegend: function(v) {
+      let exp = Math.round(Math.log10(Math.abs(v)))
+      if(exp >= 9){
+          return "" + Math.round((v/1000000000)*10) /10  + "B" ;
+      }
+      else if(exp >= 6){
+          return "" + Math.round((v/1000000)*10) /10  + "M" ;
+      }
+      else if(exp >= 3){
+          return "" + Math.round((v/1000)*10) /10  + "k" ;
+      }
+      if(this.dataType == 'migration_perc'){
+          return Math.round((v)) + "%";
+      }
+      else {
+          return Math.round((v)*10) /10;
+      }
     }
   }
 }
