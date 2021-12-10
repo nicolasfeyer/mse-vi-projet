@@ -67,7 +67,7 @@ export default {
                 .range([ 0, width ]);
             svg.append("g")
                 .attr("transform", `translate(0, ${height})`)
-                .call(d3.axisBottom(x).ticks(3));
+                .call(d3.axisBottom(x).ticks(4));
             
             // Add X axis label:
             svg.append("text")
@@ -75,14 +75,15 @@ export default {
                 .attr("x", width)
                 .attr("y", height+50 )
                 .text("Population density");
-            
+
             // Add Y axis
-            const y = d3.scaleSqrt()
+            const y = d3.scalePow()
+                .exponent(0.3)
                 //.domain([-0.2, 0.2])
                 .domain([-9000000, 9000000])
                 .range([ height, 0]);
             svg.append("g")
-                .call(d3.axisLeft(y));
+                .call(d3.axisLeft(y).ticks(16));
             
             // Add Y axis label:
             svg.append("text")

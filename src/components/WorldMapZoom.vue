@@ -2,7 +2,7 @@
   <div style="width: 100%; height: 100%;">
     <div v-if="!showGraphFull && !showGraphCountry"
          style="border-style: solid; border-color: #333333; border-width: 1px; width: 100%; height: 100%; position: fixed; top: 0px; left: 0px; z-index: 0;">
-      <SvgMap
+      <SvgMap class="map"
           :map="map.locations"
           :wrapper-styles="{position: 'relative', width: '100%', height: '100%'}"
           view-box="0 -100 1000 1000"
@@ -206,6 +206,7 @@ export default {
         }
         this.overCountryName = this.overCountryElem.name;
         this.overCountryElem.stroke = black;
+        
         map.locations.push(this.overCountryElem);
         this.overCountryID = map.locations.indexOf(this.overCountryElem);
       }
@@ -392,6 +393,14 @@ export default {
 </style>
 
 <style>
+.map path{
+    transform-box: fill-box;
+    transform-origin: center center;
+    transition: transform 1.1s;
+}
+.map path:hover{
+   transform: scale(1.1);
+}
 .description_row {
   width: 100%;
   display: flex;
