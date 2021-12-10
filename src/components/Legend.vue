@@ -6,7 +6,7 @@
       <b-container>
         <b-card class="legend_card">
           <span>Legend</span>
-          <b-row v-if="!isActiveBut['migration_perc'] && !isActiveBut['net_migration']">
+          <b-row v-if="isActiveBut['population'] || isActiveBut['pop_density']">
             <b-col cols="5" style="display: flex; justify-content: end; padding: 3px;">
               <div
                   style="width: 20px; height: 200px; background: linear-gradient(hsl(100, 50%, 50%), hsl(0, 50%, 50%));"></div>

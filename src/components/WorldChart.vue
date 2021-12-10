@@ -39,8 +39,7 @@ export default {
 
     
     watch: { 
-        dataType: function(newVal, oldVal){ // watch it
-            console.log('Prop changed: ', newVal, ' | was: ', oldVal)
+        dataType: function(){ // watch it
             this.drawGraph();
         }
     },
@@ -108,12 +107,9 @@ export default {
         },
         formatLegend(v){
             if(this.dataType == 'population'){
-                if(this.switch){
-                    this.switch = false;
+                if(v/10000%2 == 0){
                     return "";
-                } else {
-                    this.switch = true;
-                }
+                } 
             }
             let exp = Math.round(Math.log10(Math.abs(v)))
             if(exp >= 9){

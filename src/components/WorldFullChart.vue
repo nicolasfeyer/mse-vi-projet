@@ -41,7 +41,6 @@ export default {
                     localData[this.year][element]['pop_density'] && 
                     localData[this.year][element]['migration_perc']){
                     locData.push(localData[this.year][element]) 
-                    console.log(localData[this.year][element])
                 }
             }
             let margin = {top: 80, right: 150, bottom: 180, left: 80}

@@ -318,8 +318,6 @@ export default {
         case 'High income':
           color = 100;
           break;
-        default:
-          console.log("default" + color_val + " " + country);
       }
       return "hsl(" + color + ", 50%, 50%)";
     },
