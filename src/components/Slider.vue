@@ -8,8 +8,8 @@
                       style="padding: 6px 15px; margin: 0 15px;"
                       @shortkey="minus" @click="minus">-
             </b-button>
-            <vue-slider v-model="yearSelectLocal" @change.native="changeYearLocal" :interval="step()" width="100%"
-                        :min="this.minYear()" :max="this.maxYear()" :marks="marks()" :tooltip="'always'">
+            <vue-slider v-model="yearSelectLocal" @change="changeYearLocal" :interval="step()" width="100%"
+                        :min="minYear()" :max="maxYear()" :marks="marks()" :tooltip="'always'">
               <template v-slot:step="{ label, active }">
                 <div :class="['custom-step', { active }]"></div>
               </template>

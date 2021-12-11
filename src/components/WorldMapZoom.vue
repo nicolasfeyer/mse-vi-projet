@@ -125,7 +125,7 @@ export default {
   data() {
     return {
       worldData: json,
-      yearSelect: "2018",
+      yearSelect: 2018,
       map,
       showGraphFull: false,
       showGraphCountry: false,
