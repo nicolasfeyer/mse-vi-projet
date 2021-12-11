@@ -59,13 +59,13 @@ export default {
       if (this.yearSelectLocal > this.minYear()) {
         this.yearSelectLocal -= this.step();
       }
-      this.$emit('changeYear', this.yearSelectLocal);
+      this.changeYearLocal();
     },
     plus() {
       if (this.yearSelectLocal < this.maxYear()) {
         this.yearSelectLocal += this.step();
       }
-      this.$emit('changeYear', this.yearSelectLocal);
+      this.changeYearLocal();
     }
   },
   mounted() {
@@ -79,7 +79,7 @@ export default {
         this.yearSelectLocal = val
       }
     },
-    dataType: function () { // watch it
+    dataType() { // watch it
       if (this.isMigration()) {
         let diff = (this.yearSelectLocal - 2) % 5
         if (diff > 2) {
@@ -88,7 +88,7 @@ export default {
           this.yearSelectLocal -= diff;
         }
       }
-      this.$emit('changeYear', this.yearSelectLocal);
+      this.changeYearLocal();
     }
   },
   data() {

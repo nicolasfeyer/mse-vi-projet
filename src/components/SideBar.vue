@@ -8,7 +8,9 @@
         <span style="font-weight: 900;">{{ this.countryData["capitalCity"] }}</span>
       </div>
       <div v-if='this.countryData["latitude"] && this.countryData["longitude"]' class="description_row">
-        <span style="color: #666666; margin-left:auto">{{ this.countryData["latitude"]}}, {{this.countryData["longitude"] }}</span>
+        <span style="color: #666666; margin-left:auto">
+          {{ this.countryData["latitude"] }}, {{this.countryData["longitude"] }}
+        </span>
       </div>
       <div v-if='this.countryData["region"]' class="description_row">
         <span>Region : </span>

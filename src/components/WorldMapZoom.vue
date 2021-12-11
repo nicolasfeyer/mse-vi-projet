@@ -3,29 +3,29 @@
     <div v-if="!showGraphFull && !showGraphCountry"
          style="border-style: solid; border-color: #333333; border-width: 1px; width: 100%; height: 100%; position: fixed; top: 0px; left: 0px; z-index: 0;">
       <SvgMap class="map"
-          :map="map.locations"
-          :wrapper-styles="{position: 'relative', width: '100%', height: '100%'}"
-          view-box="0 -100 1000 1000"
-          :zoom-factor="zoomFactor"
-          :min-size="minSize"
-          :max-size="maxSize"
-          :size="sizeOnStart"
-          :thin-border-on-zoom="thinBorder"
-          :min-thin-border="minBorder"
-          :max-thin-border="maxBorder"
-          @mouseover="overCountry"
-          @mouseleave="leaveCountry"
-          @click="clickCountry"
+              :map="map.locations"
+              :wrapper-styles="{position: 'relative', width: '100%', height: '100%'}"
+              view-box="0 -100 1000 1000"
+              :zoom-factor="zoomFactor"
+              :min-size="minSize"
+              :max-size="maxSize"
+              :size="sizeOnStart"
+              :thin-border-on-zoom="thinBorder"
+              :min-thin-border="minBorder"
+              :max-thin-border="maxBorder"
+              @mouseover="overCountry"
+              @mouseleave="leaveCountry"
+              @click="clickCountry"
       />
     </div>
-    <div v-if="showGraphCountry" style="width: 100%; height: 100%; position: fixed; top: 0px; left: 0px;">
+    <div v-if="showGraphCountry" style="width: 100%; height: 100%; position: fixed; top: 0; left: 0;">
       <WorldChart :data='worldData' :country='"CH"' :dataType='dataType'/>
     </div>
-    <div v-if="showGraphFull" style="width: 100%; height: 100%; position: fixed; top: 0px; left: 0px;">
+    <div v-if="showGraphFull" style="width: 100%; height: 100%; position: fixed; top: 0; left: 0;">
       <WorldFullChart :data='worldData' :year='yearSelect'/>
     </div>
     <!-- Bouton de selection d'affichage -->
-    <div v-if="!showGraphFull" class="justify-content-md-center" style="position: absolute; top:0px; width:100%">
+    <div v-if="!showGraphFull" class="justify-content-md-center" style="position: absolute; top:0; width:100%">
       <b-row class="justify-content-md-center">
         <b-col col>
           <b-card style="border: none; background-color: rgba(0,0,0,0)">
@@ -45,7 +45,8 @@
                       :class="{ top_but: !isActiveBut['migration_perc'], top_but_select: isActiveBut['migration_perc'] }"
                       @click="changeData('migration_perc')">Migration percentage
             </b-button>
-            <b-button v-if="!showGraphCountry" v-shortkey="['5']" pill variant="outline-secondary" @shortkey="changeData('incomeLevel')"
+            <b-button v-if="!showGraphCountry" v-shortkey="['5']" pill variant="outline-secondary"
+                      @shortkey="changeData('incomeLevel')"
                       :class="{ top_but: !isActiveBut['incomeLevel'], top_but_select: isActiveBut['incomeLevel'] }"
                       @click="changeData('incomeLevel')">Income Level
             </b-button>
@@ -56,11 +57,12 @@
     <!-- Bouton de changement de vue -->
     <div class="justify-content-md-center" style="position: absolute; top:0px; right:10px ">
       <b-card style="border: none; background-color: rgba(0,0,0,0)">
-        <b-button pill variant="outline-secondary" :class="{ top_but: !showGraphCountry, top_but_select: showGraphCountry }"
-                  @click="switchShowGaphCountry">Graph Country
+        <b-button pill variant="outline-secondary"
+                  :class="{ top_but: !showGraphCountry, top_but_select: showGraphCountry }"
+                  @click="switchShowGraphCountry">Graph Country
         </b-button>
         <b-button pill variant="outline-secondary" :class="{ top_but: !showGraphFull, top_but_select: showGraphFull }"
-                  @click="switchShowGaphFull">Graph Full
+                  @click="switchShowGraphFull">Graph Full
         </b-button>
       </b-card>
     </div>
@@ -75,11 +77,14 @@
       </b-row>
     </div>
     <!-- Slider année -->
-    <Slider v-if="dataType != 'incomeLevel'" :showGraph="showGraphCountry" :yearSelect="yearSelect" :drawMap="drawMap" :dataType='dataType' @changeYear="changeYear"></Slider>
+    <Slider v-if="dataType != 'incomeLevel'" :showGraph="showGraphCountry" :yearSelect="yearSelect" :drawMap="drawMap"
+            :dataType='dataType' @changeYear="changeYear"></Slider>
     <!-- Légende -->
-    <Legend :isActiveBut="isActiveBut" :legendScale="legendScale" :showGraph="showGraphCountry || showGraphFull"></Legend>
+    <Legend :isActiveBut="isActiveBut" :legendScale="legendScale"
+            :showGraph="showGraphCountry || showGraphFull"></Legend>
     <!-- SideBar -->
-    <SideBar v-if="this.clickedCountryData && !showGraphFull && !showGraphCountry" :isOpen.sync="isSidebarOpen" @change="changeIsOpen"
+    <SideBar v-if="this.clickedCountryData && !showGraphFull && !showGraphCountry" :isOpen.sync="isSidebarOpen"
+             @change="changeIsOpen"
              :countryData="this.clickedCountryData"></SideBar>
   </div>
 
@@ -89,21 +94,18 @@
 import SvgMap from 'vue-simple-svg-map'
 import map from '@svg-maps/world'
 import Legend from "@/components/Legend";
+import SideBar from "@/components/SideBar";
+import Slider from "@/components/Slider";
+import WorldChart from "@/components/WorldChart";
+import WorldFullChart from "@/components/WorldFullChart";
 
 import json from '../assets/worldData.json'
 
-import WorldChart from "./WorldChart";
-import WorldFullChart from "./WorldFullChart";
-
-import SideBar from "@/components/SideBar";
-import Slider from "@/components/Slider";
-import Vue from "vue";
-
-Vue.use(require('vue-shortkey'))
 //const lightGrey =  "#aaaaaa";
 const black = "hsl(100, 60%, 0%)";
 const noDataGrey = "hsl(100, 0%, 10%)";
 const whiteBorder = "#eeeeee";
+
 export default {
   name: "WorldMapZoom",
   components: {
@@ -115,9 +117,8 @@ export default {
     Legend
   },
   mounted() {
-    map.locations = map.locations.map(function (row) {
-      let color = noDataGrey; //'#'+(Math.random()*0xFFFFFF<<0).toString(16);
-      return {name: row.name, id: row.id, d: row.path, stroke: whiteBorder, fill: color}
+    map.locations = map.locations.map((row) => {
+      return {name: row.name, id: row.id, d: row.path, stroke: whiteBorder, fill: noDataGrey}
     })
     this.changeData("population");
   },
@@ -173,11 +174,11 @@ export default {
     }
   },
   methods: {
-    switchShowGaphCountry() {
+    switchShowGraphCountry() {
       this.showGraphFull = false;
       this.showGraphCountry = !this.showGraphCountry;
     },
-    switchShowGaphFull() {
+    switchShowGraphFull() {
       this.showGraphCountry = false;
       this.changeData('net_migration');
       this.showGraphFull = !this.showGraphFull;
@@ -190,13 +191,12 @@ export default {
       this.clickedCountryData = this.worldData[this.yearSelect][this.clickCountryElem];
       this.drawMap();
     },
-
     /* --------------------------
      happends when mouse goes over a country
      - change its color and border to a lighter gray
      - display its name on top of window
     --------------------------*/
-    overCountry: function (elem) {
+    overCountry(elem) {
       if (this.overCountryElem == null && elem.name != this.clickCountryName) {
         this.overCountryElem = JSON.parse(JSON.stringify(elem));
         //removing old elem
@@ -206,7 +206,7 @@ export default {
         }
         this.overCountryName = this.overCountryElem.name;
         this.overCountryElem.stroke = black;
-        
+
         map.locations.push(this.overCountryElem);
         this.overCountryID = map.locations.indexOf(this.overCountryElem);
       }
@@ -216,7 +216,7 @@ export default {
      - put back the previous elem
      - remove display name
     --------------------------*/
-    leaveCountry: function (elem) {
+    leaveCountry(elem) {
       if (this.overCountryElem != null && elem.name != this.clickCountryName && this.overCountryElem.name != this.clickCountryName) {
         this.overCountryElem.stroke = whiteBorder;
         this.overCountryName = "World";
@@ -228,36 +228,22 @@ export default {
      - change its color and border to blue
      - display sidebar with info
     --------------------------*/
-    clickCountry: function (elem) {
+    clickCountry(elem) {
       this.clickedCountryData = this.worldData[this.yearSelect][elem.id.toUpperCase()]
       this.clickCountryElem = elem.id.toUpperCase();
       this.drawMap();
-      //this.loadSidebarData();
       this.overCountryElem = null;
       this.isSidebarOpen = true
       elem.stroke = whiteBorder;
       elem.fill = "blue";
     },
-
-    // loadSidebarData: function () {
-    //   if (this.clickCountryElem) {
-    //     this.clickCountryPic = "https://www.worldometers.info/img/flags/" + this.clickCountryElem.id + "-flag.gif" //"https://en.wikipedia.org/wiki/File:Flag_of_" + this.clickCountryName + ".svg";
-    //     this.clickCountryElem.stroke = whiteBorder;
-    //     this.clickCountryElem.fill = "blue";
-    //   }
-    // },
-
-    changeData: function (dataType) {
-      /*(this.dataType != "") ? this.isActiveBut[this.dataType] = false : "";
-      this.dataType = (this.dataType == dataType) ? "" : dataType;
-      (this.dataType != "") ? this.isActiveBut[this.dataType] = true : "";*/
+    changeData(dataType) {
       (this.dataType != "") ? this.isActiveBut[this.dataType] = false : "";
       this.dataType = dataType
       this.isActiveBut[this.dataType] = true
       this.drawMap();
     },
-
-    drawMap: function () {
+    drawMap() {
       map.locations.forEach(element => {
         element.stroke = whiteBorder;
         try {
@@ -269,8 +255,7 @@ export default {
       this.updateLegend(this.scaleFactor[this.dataType], this.logBool[this.dataType], this.padding[this.dataType]);
       //this.loadSidebarData()
     },
-
-    getColor: function (year, country, type, factor, reverse, log, padding, added) {
+    getColor(year, country, type, factor, reverse, log, padding, added) {
       if (type == "incomeLevel") {
         return this.getColorForIncome(year, country, type);
       }
@@ -298,8 +283,7 @@ export default {
       }
       return "hsl(" + color_val + ", 50%, 50%)";
     },
-
-    getColorForIncome: function (year, country, type) {
+    getColorForIncome(year, country, type) {
       let color_val = this.worldData[year][country][type];
       if (!color_val) {
         return noDataGrey;
@@ -321,16 +305,15 @@ export default {
       }
       return "hsl(" + color + ", 50%, 50%)";
     },
-
-    getColorForNeg: function (year, country, type, factor, reverse, log, padding, added) {
+    getColorForNeg(year, country, type, factor, reverse, log, padding, added) {
       let color_val = parseFloat(this.worldData[year][country][type]);
       if (!color_val) {
         return noDataGrey;
       }
-      let signcolor = 100;
+      let signColor = 100;
       if (color_val < 0) {
         color_val = -color_val;
-        signcolor = 0;
+        signColor = 0;
       }
       color_val -= padding;
       if (color_val < 0) {
@@ -347,54 +330,42 @@ export default {
       /*if(reverse) {
         color_val = 100 - color_val;
       }*/
-      return "hsl(" + signcolor + ", " + color_val + "%, 50%)";
+      return "hsl(" + signColor + ", " + color_val + "%, 50%)";
     },
-
-    updateLegend: function (factor, log, padding) {
+    updateLegend(factor, log, padding) {
+      const num = [0, 25, 50, 75, 100];
       if (log) {
-        this.legendScale[0] = ((Math.pow(2, ((0) + 1)) - 2) / factor + padding);
-        this.legendScale[1] = ((Math.pow(2, ((25 / 100 * Math.log2(100)) + 1)) - 2) / factor + padding);
-        this.legendScale[2] = ((Math.pow(2, ((50 / 100 * Math.log2(100)) + 1)) - 2) / factor + padding);
-        this.legendScale[3] = ((Math.pow(2, ((75 / 100 * Math.log2(100)) + 1)) - 2) / factor + padding);
-        this.legendScale[4] = ((Math.pow(2, ((100 / 100 * Math.log2(100)) + 1)) - 2) / factor + padding);
+        for (let i = 0; i < 5; i++) {
+          this.legendScale[i] = ((Math.pow(2, ((num[i] / 100 * Math.log2(100)) + 1)) - 2) / factor + padding);
+        }
       } else {
-        this.legendScale[0] = ((0 / factor) + padding);
-        this.legendScale[1] = ((25 / factor) + padding);
-        this.legendScale[2] = ((50 / factor) + padding);
-        this.legendScale[3] = ((75 / factor) + padding);
-        this.legendScale[4] = ((100 / factor) + padding);
+        for (let i = 0; i < 5; i++) {
+          this.legendScale[i] = ((num[i] / factor) + padding);
+        }
       }
-      if (this.dataType == "migration_perc") {
-        this.legendScale[0] *= 100;
-        this.legendScale[1] *= 100;
-        this.legendScale[2] *= 100;
-        this.legendScale[3] *= 100;
-        this.legendScale[4] *= 100;
+      if (this.dataType === "migration_perc") {
+        for (let i = 0; i < 5; i++) {
+          this.legendScale[i] *= 100;
+        }
       }
-      
-      this.legendScale[0] = this.roundLegend(this.legendScale[0].toFixed(0));
-      this.legendScale[1] = this.roundLegend(this.legendScale[1].toFixed(0));
-      this.legendScale[2] = this.roundLegend(this.legendScale[2].toFixed(0));
-      this.legendScale[3] = this.roundLegend(this.legendScale[3].toFixed(0));
-      this.legendScale[4] = this.roundLegend(this.legendScale[4].toFixed(0));
+      for (let i = 0; i < 5; i++) {
+        this.legendScale[i] = this.roundLegend(this.legendScale[i].toFixed(0));
+      }
     },
 
-    roundLegend: function(v) {
+    roundLegend(v) {
       let exp = Math.round(Math.log10(Math.abs(v)))
-      if(exp >= 9){
-          return "" + Math.round((v/1000000000)*10) /10  + "B" ;
+      if (exp >= 9) {
+        return "" + Math.round((v / 1000000000) * 10) / 10 + "B";
+      } else if (exp >= 6) {
+        return "" + Math.round((v / 1000000) * 10) / 10 + "M";
+      } else if (exp >= 3) {
+        return "" + Math.round((v / 1000) * 10) / 10 + "k";
       }
-      else if(exp >= 6){
-          return "" + Math.round((v/1000000)*10) /10  + "M" ;
-      }
-      else if(exp >= 3){
-          return "" + Math.round((v/1000)*10) /10  + "k" ;
-      }
-      if(this.dataType == 'migration_perc'){
-          return Math.round((v)) + "%";
-      }
-      else {
-          return Math.round((v)*10) /10;
+      if (this.dataType === 'migration_perc') {
+        return Math.round((v)) + "%";
+      } else {
+        return Math.round((v) * 10) / 10;
       }
     }
   }
@@ -411,14 +382,16 @@ export default {
 </style>
 
 <style>
-.map path{
-    transform-box: fill-box;
-    transform-origin: center center;
-    transition: transform 1.1s;
+.map path {
+  transform-box: fill-box;
+  transform-origin: center center;
+  transition: transform 1.1s;
 }
-.map path:hover{
-   transform: scale(1.1);
+
+.map path:hover {
+  transform: scale(1.1);
 }
+
 .description_row {
   width: 100%;
   display: flex;

@@ -13,7 +13,7 @@
             </b-col>
             <b-col cols="7" style="padding: 3px;">
               <div
-                  style="height: 200px; width: 40px; display: flex; flex-direction: column; justify-content: space-between; align-content:left">
+                  style="height: 200px; width: 40px; display: flex; flex-direction: column; justify-content: space-between; align-content: left">
                 <div class="legend_value">&#60; {{ legendScale[0] }}</div>
                 <div class="legend_value">{{ legendScale[1] }}</div>
                 <div class="legend_value">{{ legendScale[2] }}</div>
@@ -43,7 +43,6 @@
     </div>
     <div v-if="isActiveBut['incomeLevel'] && !showGraph" class="justify-content-md-center"
          style="position: absolute; left:10px; bottom:130px; width:110px">
-
       <b-container>
         <b-card class="legend_card">
           <span>Legend</span>

@@ -1,13 +1,4 @@
 <template>
-  <!--  <WorldMapVue-->
-  <!--      :country-data="editSubscriptionCountryData"-->
-  <!--      :show-overlay="showMapOverlay"-->
-  <!--      @mouseenter="this.onMouseEnterMapCountry"-->
-  <!--      @mouseleave="this.onMouseLeaveMapCountry"-->
-  <!--      @click="this.onClickMapCountry"-->
-  <!--  >-->
-
-  <!--  </WorldMapVue>-->
   <MapChart
       :countryData="{'US': 4, 'CA': 7, 'GB': 8, 'IE': 14, 'ES': 21}"
       highColor="#ff0000"
@@ -18,7 +9,6 @@
 </template>
 
 <script>
-//import WorldMapVue from "world-map-vue";
 import MapChart from 'vue-map-chart'
 
 export default {
@@ -28,13 +18,11 @@ export default {
       showMapOverlay: false
     }
   },
-
   components: {
-    //WorldMapVue
     MapChart
   },
   methods: {
-    onMouseEnterMapCountry(countryCode) {
+/*    onMouseEnterMapCountry(countryCode) {
       this.showMapOverlay = true
       console.log(countryCode);
       // Update your data/property to be displayed on the overlay.
@@ -44,7 +32,7 @@ export default {
     },
     onClickMapCountry(data) {
       console.log('Click Country', data)
-    },
+    },*/
   }
 
 }
