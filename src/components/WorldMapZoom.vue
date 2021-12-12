@@ -235,7 +235,7 @@ export default {
       this.overCountryElem = null;
       this.isSidebarOpen = true
       elem.stroke = whiteBorder;
-      elem.fill = "blue";
+      elem.fill = "#3498db";
     },
     changeData(dataType) {
       (this.dataType != "") ? this.isActiveBut[this.dataType] = false : "";
