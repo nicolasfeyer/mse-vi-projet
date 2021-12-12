@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!showGraph" class="justify-content-md-center" style="position: absolute; bottom:10px; width:100%">
+  <div v-if="!showGraph" class="justify-content-md-center" style="position: absolute; bottom:10px; width:100%; opacity: 0.90;">
     <b-row class="justify-content-md-center">
       <b-col col lg="8">
         <b-card><!--:title="yearSelectLocal.toString()" sub-title="Move cursor to change year"-->

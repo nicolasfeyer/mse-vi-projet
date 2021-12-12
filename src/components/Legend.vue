@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="opacity: 0.90;">
     <div v-if="!isActiveBut['incomeLevel'] && !showGraph" class="justify-content-md-center"
          style="position: absolute; left:10px; bottom:130px; width:110px">
 

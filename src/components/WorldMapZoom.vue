@@ -1,7 +1,8 @@
 <template>
   <div style="width: 100%; height: 100%;">
     <div v-if="!showGraphFull && !showGraphCountry"
-         style="border-style: solid; border-color: #333333; border-width: 1px; width: 100%; height: 100%; position: fixed; top: 0px; left: 0px; z-index: 0;">
+         style="border-style: solid; border-color: #333333; border-width: 1px; width: 100%; height: 100%; position: fixed; top: 0px; left: 0px; z-index: 0;
+  background-color: rgb(198, 219, 226);">
       <SvgMap class="map"
               :map="map.locations"
               :wrapper-styles="{position: 'relative', width: '100%', height: '100%'}"
@@ -67,7 +68,7 @@
       </b-card>
     </div>
     <!-- Titre du pays en haut de la page -->
-    <div v-if="!showGraphFull && !showGraphCountry" class="justify-content-md-center">
+    <div v-if="!showGraphFull && !showGraphCountry" class="justify-content-md-center" style="opacity: 0.90;">
       <b-row class="justify-content-md-center">
         <b-col col lg="3">
           <b-card>
