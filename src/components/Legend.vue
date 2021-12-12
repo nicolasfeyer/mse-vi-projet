@@ -4,7 +4,7 @@
          style="position: absolute; left:10px; bottom:130px; width:110px">
 
       <b-container>
-        <b-card class="legend_card">
+        <b-card class="legend_card" style="min-width: 130px">
           <span>Legend</span>
           <b-row v-if="isActiveBut['population'] || isActiveBut['pop_density']">
             <b-col cols="5" style="display: flex; justify-content: end; padding: 3px;">

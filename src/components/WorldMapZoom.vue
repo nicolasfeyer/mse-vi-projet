@@ -356,9 +356,9 @@ export default {
     roundLegend(v) {
       let exp = Math.round(Math.log10(Math.abs(v)))
       if (exp >= 9) {
-        return "" + Math.round((v / 1000000000) * 10) / 10 + "B";
+        return "" + Math.round((v / 1000000000) * 10) / 10 + "b";
       } else if (exp >= 6) {
-        return "" + Math.round((v / 1000000) * 10) / 10 + "M";
+        return "" + Math.round((v / 1000000) * 10) / 10 + "m";
       } else if (exp >= 3) {
         return "" + Math.round((v / 1000) * 10) / 10 + "k";
       }
