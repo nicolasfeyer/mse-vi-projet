@@ -3,7 +3,8 @@
        style="position: absolute; bottom:10px; width:100%; opacity: 0.90;">
     <b-row class="justify-content-md-center">
       <b-col col lg="8">
-        <b-card><!--:title="yearSelectLocal.toString()" sub-title="Move cursor to change year"-->
+        <b-card :style="isMigration() ? 'height: 100px;' : ''">
+          <!--:title="yearSelectLocal.toString()" sub-title="Move cursor to change year"-->
           <div style="display: flex; align-items: center; justify-content:center;">
             <b-button v-shortkey="['arrowleft']" pill variant="outline-secondary"
                       style="padding: 6px 15px; margin: 0 15px;"
@@ -53,11 +54,17 @@ export default {
 
 
       if (this.isMigration()) {
-        marks[2012] = 'Syrian civil war'
-        marks[2002] = "War in Afghanistan"
-        marks[1992] = "Persian Gulf War"
-        marks[1977] = "Vietnamese boat people"
-        marks[1967] = "Vietnam War"
+        const s = {
+          whiteSpace: "pre"
+        };
+
+        marks[this.minYear()] = this.minYear();
+        marks[this.maxYear()] = this.maxYear();
+        marks[2012] = {label: '2012\nSyrian war', "labelStyle": s}
+        marks[2002] = {label: "2002\nWar in Afghanistan", "labelStyle": s}
+        marks[1992] = {label: "1992\nGulf War", "labelStyle": s}
+        marks[1977] = {label: "1977\nBoat people", "labelStyle": s}
+        marks[1967] = {label: "1967\nVietnam War", "labelStyle": s}
       } else {
         let step = 10, max = this.maxYear()
         let mark = this.minYear();
