@@ -81,7 +81,7 @@
     <Slider v-if="dataType != 'incomeLevel'" :showGraph="showGraphCountry" :yearSelect="yearSelect" :drawMap="drawMap"
             :dataType='dataType' @changeYear="changeYear"></Slider>
     <!-- Légende -->
-    <Legend :isActiveBut="isActiveBut" :legendScale="legendScale"
+    <Legend :legend_text="legend_text[this.dataType]" :isActiveBut="isActiveBut" :legendScale="legendScale"
             :showGraph="showGraphCountry || showGraphFull"></Legend>
     <!-- SideBar -->
     <SideBar v-if="this.clickedCountryData && !showGraphFull && !showGraphCountry" :isOpen.sync="isSidebarOpen"
@@ -155,6 +155,13 @@ export default {
         "net_migration": 0.000002139450587,
         "migration_perc": 500,
         "incomeLevel": 1
+      },
+      legend_text:{
+        "population": "Population",
+        "pop_density": "Density (per km²)",
+        "net_migration": "Migration",
+        "migration_perc": "Percentage",
+        "incomeLevel": "Income level"
       },
       logBool: {
         "population": true,
@@ -325,7 +332,7 @@ export default {
         color_val = (Math.log2(color_val + 2) - 1) * (100 / (Math.log2(100)));
       }
       color_val += added;
-      if (color_val > 100) {
+      if (color_val > 100) {8
         color_val = 100;
       }
       /*if(reverse) {

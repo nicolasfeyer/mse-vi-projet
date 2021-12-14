@@ -6,13 +6,13 @@
       <b-container>
         <b-card class="legend_card" style="min-width: 130px;">
           <b-row>
-            <b-col cols="7">
-              <span>Legend </span>
+            <b-col cols="9">
+              <span>{{this.legend_text}}</span>
             </b-col>
-            <b-col cols="3" style="padding: 0; display: flex;justify-content: start;">
+            <b-col cols="2" style="padding: 0; display: flex;justify-content: start;">
               <div style="padding: 0; align-content: center ; ">
                 <b-icon icon="info-circle"
-                        v-b-tooltip="{ title: html, placement: 'topleft', variant: 'secondary', positioning: 'hover', html: true}" />
+                        v-b-tooltip="{ title: html, placement: 'topleft', variant: 'secondary', positioning: 'hover', html: true}"/>
               </div>
             </b-col>
 
@@ -57,7 +57,7 @@
          style="position: absolute; left:10px; bottom:130px; width:110px">
       <b-container>
         <b-card class="legend_card">
-          <span>Legend</span>
+          <span>{{this.legend_text}}</span>
           <b-row>
             <b-col cols="5" style="display: flex; justify-content: end; padding: 3px;">
               <div
@@ -87,7 +87,7 @@
 <script>
 export default {
   name: "Legend",
-  props: ["isActiveBut", "legendScale", "showGraph"],
+  props: ["isActiveBut", "legendScale", "showGraph", "legend_text"],
   data() {
     return {
       html: "<p><b>k</b>ilo: *1e3</br><b>m</b>ega: *1e6</br><b>b</b>illion: *1e9</p>"
