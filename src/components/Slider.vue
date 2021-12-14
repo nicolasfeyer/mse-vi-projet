@@ -1,5 +1,6 @@
 <template>
-  <div v-if="!showGraph" class="justify-content-md-center" style="position: absolute; bottom:10px; width:100%; opacity: 0.90;">
+  <div v-if="!showGraph" class="justify-content-md-center"
+       style="position: absolute; bottom:10px; width:100%; opacity: 0.90;">
     <b-row class="justify-content-md-center">
       <b-col col lg="8">
         <b-card><!--:title="yearSelectLocal.toString()" sub-title="Move cursor to change year"-->
@@ -29,6 +30,8 @@
 export default {
   name: "Slider",
   props: ["yearSelect", "showGraph", "changeYear", "dataType"],
+
+
   methods: {
     changeYearLocal() {
       this.$emit('changeYear', this.yearSelectLocal);
@@ -46,13 +49,25 @@ export default {
       return this.isMigration() ? 2017 : 2018;
     },
     marks() {
-      const marks = [], step = 5, max = this.maxYear()
-      let mark = this.minYear();
-      while (mark < max) {
-        marks.push(mark)
-        mark += step
+      let marks = {}
+
+
+      if (this.isMigration()) {
+        marks[2012] = 'Syrian civil war'
+        marks[2002] = "War in Afghanistan"
+        marks[1992] = "Persian Gulf War"
+        marks[1977] = "Vietnamese boat people"
+        marks[1967] = "Vietnam War"
+      } else {
+        let step = 10, max = this.maxYear()
+        let mark = this.minYear();
+        while (mark < max) {
+          marks[mark] = mark
+          mark += step
+        }
+        marks[max] = max;
       }
-      marks.push(max)
+
       return marks;
     },
     minus() {
