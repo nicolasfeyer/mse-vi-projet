@@ -2,7 +2,7 @@
   <div style="width: 100%; height: 100%;">
     <div v-if="!showGraphFull && !showGraphCountry"
          style="border-style: solid; border-color: #333333; border-width: 1px; width: 100%; height: 100%; position: fixed; top: 0px; left: 0px; z-index: 0;
-  background-color: rgb(198, 219, 226);">
+  background-color: rgb(238, 238, 238);">
       <SvgMap class="map"
               :map="map.locations"
               :wrapper-styles="{position: 'relative', width: '100%', height: '100%'}"
@@ -393,7 +393,6 @@ export default {
 .map path {
   transform-box: fill-box;
   transform-origin: center center;
-  transition: transform 1.1s;
 }
 
 .map path:hover {
