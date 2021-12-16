@@ -15,7 +15,20 @@
                :prop="isoToName[country]" :key="`country-${index}`"/>
       <la-x-axis prop="name" class="x-axis-style"></la-x-axis>
       <la-y-axis :format="formatLegend"></la-y-axis>
-      <la-tooltip></la-tooltip>
+      <la-tooltip>
+        <div class="tooltip" slot-scope="props">
+          <div class="title">{{ props.label }}</div>
+          <ul class="list">
+            <li
+                :key="item.label"
+                v-for="item in props.actived"
+                :style="{ borderTop: '3px solid ' + item.color }">
+              <div class="label">{{ item.label }}</div>
+              <div class="value">{{ item.value }}</div>
+            </li>
+          </ul>
+        </div>
+      </la-tooltip>
       <la-legend selectable></la-legend>
       <la-y-marker dashed :value="0" label="0"></la-y-marker>
     </la-cartesian>
@@ -100,7 +113,7 @@ export default {
       this.drawGraph()
     },
     formatLegend(v) {
-      if (this.dataType == 'population') {
+      if (this.dataType === 'population') {
         if (v / 10000 % 2 == 0) {
           return "";
         }
@@ -113,7 +126,7 @@ export default {
       } else if (exp >= 3) {
         return "" + Math.round((v / 1000) * 10) / 10 + "k";
       }
-      if (this.dataType == 'migration_perc') {
+      if (this.dataType === 'migration_perc') {
         return Math.round((v) * 100) + "%";
       } else {
         return Math.round((v) * 10) / 10;
@@ -122,17 +135,53 @@ export default {
   },
   mounted() {
     this.countrySelect.push(this.country)
-    this.drawGraph()
     this.countryData = this.getFreeCountry()
     this.countryData.push({value: null, text: 'Add a country'})
+    this.drawGraph()
   }
 };
 </script>
 
-<style>
+<style scoped>
 .x-axis-style text {
   transform-box: fill-box;
   transform-origin: center;
   transform: translate(10px, 5px) rotate(45deg);
 }
+.tooltip {
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 4px;
+}
+
+.title {
+  padding: 10px;
+  color: #959da5;
+}
+
+.list {
+  list-style: none;
+  display: flex;
+}
+
+.list li {
+  padding: 5px 10px;
+  flex: 1;
+  color: #fff;
+  margin: 0;
+  min-width: 90px;
+}
+
+.list li::before {
+  content: none;
+}
+
+.label {
+  color: #dfe2e5;
+  font-weight: 600;
+}
+
+.value {
+  color: #959da5;
+}
+
 </style>
