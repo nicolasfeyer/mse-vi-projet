@@ -15,8 +15,11 @@
                :prop="isoToName[country]" :key="`country-${index}`"/>
       <la-x-axis prop="name" class="x-axis-style"></la-x-axis>
       <la-y-axis :format="formatLegend"></la-y-axis>
+
+      <la-legend selectable></la-legend>
+      <la-y-marker dashed :value="0" label="0"></la-y-marker>
       <la-tooltip>
-        <div class="tooltip" slot-scope="props">
+        <template class="tooltip" slot-scope="props">
           <div class="title">{{ props.label }}</div>
           <ul class="list">
             <li
@@ -27,21 +30,24 @@
               <div class="value">{{ item.value }}</div>
             </li>
           </ul>
-        </div>
+        </template>
       </la-tooltip>
-      <la-legend selectable></la-legend>
-      <la-y-marker dashed :value="0" label="0"></la-y-marker>
     </la-cartesian>
   </div>
 </template>
 
 <script>
 import Vue from 'vue';
-import {Laue} from 'laue';
+import {Laue,Tooltip} from 'laue';
 
 Vue.use(Laue);
+Vue.component(Tooltip.name, Tooltip);
+
 
 export default {
+  components:{
+    LaTooltip: Tooltip
+  },
   props: ['data', 'country', 'dataType', 'isoToName'],
   watch: {
     dataType() {
@@ -142,7 +148,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .x-axis-style text {
   transform-box: fill-box;
   transform-origin: center;
