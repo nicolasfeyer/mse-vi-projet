@@ -1,8 +1,8 @@
 <template>
   <div style="width: 100%; height: 100%;">
     <div v-if="!showGraphFull && !showGraphCountry"
-         style="border-style: solid; border-color: #333333; border-width: 1px; width: 100%; height: 100%; position: fixed; top: 0px; left: 0px; z-index: 0;
-  background-color: rgb(238, 238, 238);">
+         style="border-style: solid; border-color: #333333; border-width: 1px; width: 100%; height: 100%; position: fixed; top: 0; left: 0; z-index: 0;
+  background-color: rgb(238, 238, 238);" @click="clickParent">
       <SvgMap class="map"
               :map="map.locations"
               :wrapper-styles="{position: 'relative', width: '100%', height: '100%'}"
@@ -184,10 +184,23 @@ export default {
         "incomeLevel": false
       },
       padding: {"population": 3893, "pop_density": 10, "net_migration": 0, "migration_perc": 0, "incomeLevel": 0},
-      added: {"population": 0, "pop_density": 0, "net_migration": 5, "migration_perc": 5, "incomeLevel": 0}
+      added: {"population": 0, "pop_density": 0, "net_migration": 5, "migration_perc": 5, "incomeLevel": 0},
+      countryJustClicked: false
     }
   },
   methods: {
+    clickParent() {
+      if (!this.countryJustClicked) {
+        this.clickedCountryData = null
+        this.clickCountryElem = null
+        this.drawMap();
+        this.overCountryElem = null;
+        this.isSidebarOpen = false
+      } else {
+        this.countryJustClicked = false
+      }
+
+    },
     switchShowGraphCountry() {
       this.showGraphFull = false;
       this.showMap = false;
@@ -250,7 +263,7 @@ export default {
      - display sidebar with info
     --------------------------*/
     clickCountry(elem) {
-      console.log(elem)
+      this.countryJustClicked = true
       this.clickedCountryData = this.worldData[this.yearSelect][elem.id.toUpperCase()]
       this.clickCountryElem = elem.id.toUpperCase();
       this.drawMap();
@@ -346,7 +359,7 @@ export default {
         color_val = (Math.log2(color_val + 2) - 1) * (100 / (Math.log2(100)));
       }
       color_val += added;
-      if (color_val > 100) {8
+      if (color_val > 100) {
         color_val = 100;
       }
       /*if(reverse) {
