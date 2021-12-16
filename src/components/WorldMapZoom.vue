@@ -20,7 +20,7 @@
       />
     </div>
     <div v-if="showGraphCountry" style="width: 100%; height: 100%; position: fixed; top: 0; left: 0;">
-      <WorldChart :data='worldData' :country='"CH"' :dataType="dataType !== 'income_level' ? dataType:'population'"/>
+      <WorldChart :data='worldData' :country='"CH"' :isoToName="isoToName" :dataType="dataType !== 'income_level' ? dataType:'population'"/>
     </div>
     <div v-if="showGraphFull" style="width: 100%; height: 100%; position: fixed; top: 0; left: 0;">
       <WorldFullChart :data='worldData' :year='yearSelect'/>
@@ -56,7 +56,8 @@
       </b-row>
     </div>
     <!-- Bouton de changement de vue -->
-    <div class="justify-content-md-center" style="position: absolute; top:0px; right:10px; /*background-color: rgba(255, 255, 255,0.9);*/">
+    <div class="justify-content-md-center"
+         style="position: absolute; top:0px; right:10px; /*background-color: rgba(255, 255, 255,0.9);*/">
       <b-card style="border: none; background-color: rgba(0,0,0,0)">
 
         <b-button pill variant="outline-secondary"
@@ -67,7 +68,8 @@
                   :class="{ mode_button: !showGraphCountry, mode_button_select: showGraphCountry }"
                   @click="switchShowGraphCountry">Graph Country
         </b-button>
-        <b-button pill variant="outline-secondary" :class="{ mode_button: !showGraphFull, mode_button_select: showGraphFull }"
+        <b-button pill variant="outline-secondary"
+                  :class="{ mode_button: !showGraphFull, mode_button_select: showGraphFull }"
                   @click="switchShowGraphFull">Graph Full
         </b-button>
       </b-card>
@@ -123,6 +125,14 @@ export default {
     Legend
   },
   mounted() {
+    this.isoToName = {};
+
+    for (const year in json) {
+      for (const iso in json[year]) {
+        this.isoToName[iso] = json[year][iso].country;
+      }
+    }
+
     map.locations = map.locations.map((row) => {
       return {name: row.name, id: row.id, d: row.path, stroke: whiteBorder, fill: noDataGrey}
     })
@@ -130,6 +140,7 @@ export default {
   },
   data() {
     return {
+      isoToName: null,
       worldData: json,
       yearSelect: 2018,
       map,
@@ -162,7 +173,7 @@ export default {
         "migration_perc": 500,
         "incomeLevel": 1
       },
-      legend_text:{
+      legend_text: {
         "population": "Population",
         "pop_density": "Density (per km²)",
         "net_migration": "Migration",
@@ -212,7 +223,7 @@ export default {
       this.changeData('net_migration');
       this.showGraphFull = !this.showGraphFull;
     },
-    switchMap(){
+    switchMap() {
       this.showGraphCountry = false;
       this.showGraphFull = false;
       this.showMap = !this.showMap;

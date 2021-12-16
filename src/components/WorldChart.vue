@@ -6,18 +6,13 @@
         </b-button>
       </b-col>
     </b-row>
-    <h4>Add a country : </h4>
-    <b-form-select v-model="countrySelected" :options="getFreeCountry()" @change="newCountry"></b-form-select>
-    <b-alert v-model="showDismissibleAlert" variant="danger" dismissible>
-      MAx number of country reached !
-    </b-alert>
+    <b-form-select :disabled="disabledCountrySelect" class="form-control mt-3" style="width: 20%;display: initial;"
+                   v-model="countrySelected"
+                   :options="countryData"
+                   @change="newCountry"></b-form-select>
     <la-cartesian v-if="countrySelect.length > 0" autoresize :height="windowHeight" :data="values">
-      <la-line v-for="(country, index) in countrySelect" :width="2" dashed dot animated curve :label="country" :prop="country" :key="`country-${index}`"/>
-<!--      <la-line :width="2" dashed dot animated curve :label="countrySelect[1]" :prop="countrySelect[1]"></la-line>
-      <la-line :width="2" dashed dot animated curve :label="countrySelect[2]" :prop="countrySelect[2]"></la-line>
-      <la-line :width="2" dashed dot animated curve :label="countrySelect[3]" :prop="countrySelect[3]"></la-line>
-      <la-line :width="2" dashed dot animated curve :label="countrySelect[4]" :prop="countrySelect[4]"></la-line>
-      <la-line :width="2" dashed dot animated curve :label="countrySelect[5]" :prop="countrySelect[5]"></la-line>-->
+      <la-line v-for="(country, index) in countrySelect" :width="2" dashed dot animated curve :label="isoToName[country]"
+               :prop="isoToName[country]" :key="`country-${index}`"/>
       <la-x-axis prop="name" class="x-axis-style"></la-x-axis>
       <la-y-axis :format="formatLegend"></la-y-axis>
       <la-tooltip></la-tooltip>
@@ -34,7 +29,7 @@ import {Laue} from 'laue';
 Vue.use(Laue);
 
 export default {
-  props: ['data', 'country', 'dataType'],
+  props: ['data', 'country', 'dataType', 'isoToName'],
   watch: {
     dataType() {
       this.drawGraph();
@@ -44,14 +39,15 @@ export default {
     values: [],
     windowHeight: window.innerHeight - 300,
     countrySelect: [],
-    countrySelected: "",
-    showDismissibleAlert: false,
-    switch: false
+    countrySelected: null,
+    disabledCountrySelect: false,
+    switch: false,
+    countryData: null
   }),
   methods: {
     drawGraph() {
       this.values = [];
-      if (this.dataType == 'migration_perc' || this.dataType == "net_migration") {
+      if (this.dataType === 'migration_perc' || this.dataType === "net_migration") {
         for (let i = 1962; i < 2019; i = i + 5) {
           this.values.push(this.getCountryData(i));
         }
@@ -64,7 +60,7 @@ export default {
     getCountryData(i) {
       let val = {name: i}
       this.countrySelect.forEach(selectedElem => {
-        val[selectedElem] = this.data[i][selectedElem][this.dataType];
+        val[this.isoToName[selectedElem]] = this.data[i][selectedElem][this.dataType];
       })
       return val
     },
@@ -73,7 +69,7 @@ export default {
       for (let element in this.data[1990]) {
         let test = true;
         this.countrySelect.forEach(selectedElem => {
-          if (element == selectedElem) {
+          if (element === selectedElem) {
             test = false;
           }
         })
@@ -85,17 +81,22 @@ export default {
     },
     newCountry() {
       if (this.countrySelected) {
-        if (this.countrySelect.length > 5) {
-          this.showDismissibleAlert = true
-        } else {
-          this.countrySelect.push(this.countrySelected)
-          this.countrySelected = ""
+        this.countrySelect.push(this.countrySelected)
+        this.countrySelected = null
+        if (this.countrySelect.length > 4) {
+          this.disabledCountrySelect = true
         }
+        this.countryData = this.getFreeCountry()
+        this.countryData.push({value: null, text: 'Add a country'})
       }
       this.drawGraph()
+
     },
     removeCountry(elem) {
       this.countrySelect.splice(this.countrySelect.indexOf(elem), 1);
+      this.disabledCountrySelect = false
+      this.countryData = this.getFreeCountry()
+      this.countryData.push({value: null, text: 'Add a country'})
       this.drawGraph()
     },
     formatLegend(v) {
@@ -122,6 +123,8 @@ export default {
   mounted() {
     this.countrySelect.push(this.country)
     this.drawGraph()
+    this.countryData = this.getFreeCountry()
+    this.countryData.push({value: null, text: 'Add a country'})
   }
 };
 </script>
