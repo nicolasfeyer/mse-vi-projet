@@ -26,7 +26,8 @@
             </td>
           </tr>
           <tr :key="item.label" v-for="item in props.actived">
-            <td style="text-align: left;padding-right:10px;"><span class="tooltip-text">{{ item.label }}</span></td>
+            <td style="text-align: left;padding-right:10px;">
+              <span :style="'color:'+item.color" class="tooltip-text">{{ item.label }}</span></td>
             <td style="text-align: right;"><span class="tooltip-text">{{ item.value.toLocaleString(undefined) }}</span>
             </td>
           </tr>

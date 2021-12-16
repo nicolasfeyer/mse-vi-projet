@@ -60,15 +60,15 @@
          style="position: absolute; top:0px; right:10px; /*background-color: rgba(255, 255, 255,0.9);*/">
       <b-card style="border: none; background-color: rgba(0,0,0,0)">
 
-        <b-button pill variant="outline-secondary"
+        <b-button variant="outline-secondary"
                   :class="{ mode_button: !showMap, mode_button_select: showMap }"
                   @click="switchMap">Map
         </b-button>
-        <b-button pill variant="outline-secondary"
+        <b-button variant="outline-secondary"
                   :class="{ mode_button: !showGraphCountry, mode_button_select: showGraphCountry }"
                   @click="switchShowGraphCountry">Graph Country
         </b-button>
-        <b-button pill variant="outline-secondary"
+        <b-button variant="outline-secondary"
                   :class="{ mode_button: !showGraphFull, mode_button_select: showGraphFull }"
                   @click="switchShowGraphFull">Graph Full
         </b-button>
@@ -215,18 +215,18 @@ export default {
     switchShowGraphCountry() {
       this.showGraphFull = false;
       this.showMap = false;
-      this.showGraphCountry = !this.showGraphCountry;
+      this.showGraphCountry = true;
     },
     switchShowGraphFull() {
       this.showGraphCountry = false;
       this.showMap = false;
       this.changeData('net_migration');
-      this.showGraphFull = !this.showGraphFull;
+      this.showGraphFull = true;
     },
     switchMap() {
       this.showGraphCountry = false;
       this.showGraphFull = false;
-      this.showMap = !this.showMap;
+      this.showMap = true;
     },
     changeIsOpen(val) {
       this.isSidebarOpen = val;
@@ -477,18 +477,18 @@ export default {
   margin-left: 5px;
   margin-right: 5px;
   background-color: #ffffff !important;
-  color: #777777 !important;
+  color: #000000 !important;
 }
 
 .mode_button:hover {
-  background-color: #777777 !important;
+  background-color: #000000 !important;
   color: #ffffff !important;
 }
 
 .mode_button_select {
   margin-left: 5px;
   margin-right: 5px;
-  background-color: #777777 !important;
+  background-color: #000000 !important;
   color: #ffffff !important;
 }
 </style>
