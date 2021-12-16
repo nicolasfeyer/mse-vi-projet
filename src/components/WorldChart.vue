@@ -1,11 +1,10 @@
 <template>
   <div style='width:100%; height:100%; padding:100px 50px;'>
-    <b-row style='padding: 20px;'>
-      <b-col v-for="country in countrySelect" :key="country">
-        <b-button variant="outline-primary" @click="removeCountry(country)">{{ data[1990][country].country }} X
-        </b-button>
-      </b-col>
-    </b-row>
+    <span style="margin: 10px" v-for="country in countrySelect" :key="country">
+      <b-button variant="outline-primary" @click="removeCountry(country)">{{ data[1990][country].country }} X
+      </b-button>
+    </span>
+    <br/>
     <b-form-select :disabled="disabledCountrySelect" class="form-control mt-3" style="width: 20%;display: initial;"
                    v-model="countrySelected"
                    :options="countryData"
@@ -17,7 +16,6 @@
       <la-x-axis prop="name" class="x-axis-style"></la-x-axis>
       <la-y-axis :format="formatLegend"></la-y-axis>
 
-      <la-legend></la-legend>
       <la-y-marker dashed :value="0" label="0"></la-y-marker>
       <la-tooltip>
         <template slot-scope="props">
@@ -29,7 +27,8 @@
           </tr>
           <tr :key="item.label" v-for="item in props.actived">
             <td style="text-align: left;padding-right:10px;"><span class="tooltip-text">{{ item.label }}</span></td>
-            <td style="text-align: right;"><span class="tooltip-text">{{ item.value.toLocaleString(undefined) }}</span></td>
+            <td style="text-align: right;"><span class="tooltip-text">{{ item.value.toLocaleString(undefined) }}</span>
+            </td>
           </tr>
           </html>
         </template>
