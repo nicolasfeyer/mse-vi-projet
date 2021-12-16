@@ -19,18 +19,26 @@
           </b-row>
 
           <b-row v-if="isActiveBut['population'] || isActiveBut['pop_density']">
-            <b-col cols="5" style="display: flex; justify-content: end; padding: 3px;">
-              <div
-                  style="width: 20px; height: 200px; background: linear-gradient(hsl(100, 50%, 50%), hsl(0, 50%, 50%));"></div>
+            <b-col cols="4" style="display: flex; justify-content: end; padding: 3px;">
+              <div style="width: 20px; height: 200px; background: linear-gradient(hsl(100, 50%, 50%), hsl(0, 50%, 50%));" />
             </b-col>
             <b-col cols="7" style="padding: 3px;">
-              <div
-                  style="height: 200px; width: 40px; display: flex; flex-direction: column; justify-content: space-between; align-content: left">
+              <div style="height: 200px; display: flex; flex-direction: column; justify-content: space-between;">
                 <div class="legend_value">&#60; {{ legendScale[0] }}</div>
                 <div class="legend_value">{{ legendScale[1] }}</div>
                 <div class="legend_value">{{ legendScale[2] }}</div>
                 <div class="legend_value">{{ legendScale[3] }}</div>
-                <div class="legend_value">>{{ legendScale[4] }}</div>
+                <div class="legend_value">> {{ legendScale[4] }}</div>
+              </div>
+            </b-col>
+          </b-row>
+          <b-row v-if="isActiveBut['population'] || isActiveBut['pop_density']">
+            <b-col cols="4" style="display: flex; justify-content: end; padding: 3px;">
+              <div style="width: 20px; height: 20px; background: black;"></div>
+            </b-col>
+            <b-col cols="7"  style="padding: 3px;">
+              <div class="legend_value">
+                No data
               </div>
             </b-col>
           </b-row>
