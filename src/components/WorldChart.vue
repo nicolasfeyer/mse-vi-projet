@@ -11,25 +11,27 @@
                    :options="countryData"
                    @change="newCountry"></b-form-select>
     <la-cartesian v-if="countrySelect.length > 0" autoresize :height="windowHeight" :data="values">
-      <la-line v-for="(country, index) in countrySelect" :width="2" dashed dot animated curve :label="isoToName[country]"
+      <la-line v-for="(country, index) in countrySelect" :width="2" dashed dot animated curve
+               :label="isoToName[country]"
                :prop="isoToName[country]" :key="`country-${index}`"/>
       <la-x-axis prop="name" class="x-axis-style"></la-x-axis>
       <la-y-axis :format="formatLegend"></la-y-axis>
 
-      <la-legend selectable></la-legend>
+      <la-legend></la-legend>
       <la-y-marker dashed :value="0" label="0"></la-y-marker>
       <la-tooltip>
-        <template class="tooltip" slot-scope="props">
-          <div class="title">{{ props.label }}</div>
-          <ul class="list">
-            <li
-                :key="item.label"
-                v-for="item in props.actived"
-                :style="{ borderTop: '3px solid ' + item.color }">
-              <div class="label">{{ item.label }}</div>
-              <div class="value">{{ item.value }}</div>
-            </li>
-          </ul>
+        <template slot-scope="props">
+          <html class="tooltip-custom">
+          <tr>
+            <td colspan="2">
+              <span class="tooltip-title">{{ props.label }}</span>
+            </td>
+          </tr>
+          <tr :key="item.label" v-for="item in props.actived">
+            <td style="text-align: left;padding-right:10px;"><span class="tooltip-text">{{ item.label }}</span></td>
+            <td style="text-align: right;"><span class="tooltip-text">{{ item.value.toLocaleString(undefined) }}</span></td>
+          </tr>
+          </html>
         </template>
       </la-tooltip>
     </la-cartesian>
@@ -38,14 +40,14 @@
 
 <script>
 import Vue from 'vue';
-import {Laue,Tooltip} from 'laue';
+import {Laue, Tooltip} from 'laue';
 
 Vue.use(Laue);
 Vue.component(Tooltip.name, Tooltip);
 
 
 export default {
-  components:{
+  components: {
     LaTooltip: Tooltip
   },
   props: ['data', 'country', 'dataType', 'isoToName'],
@@ -120,7 +122,7 @@ export default {
     },
     formatLegend(v) {
       if (this.dataType === 'population') {
-        if (v / 10000 % 2 == 0) {
+        if (v / 10000 % 2 === 0) {
           return "";
         }
       }
@@ -154,40 +156,20 @@ export default {
   transform-origin: center;
   transform: translate(10px, 5px) rotate(45deg);
 }
-.tooltip {
-  background: rgba(0, 0, 0, 0.8);
+
+.tooltip-text {
+  color: white;
+}
+
+.tooltip-title {
+  color: white;
+  font-weight: bold;
+}
+
+.tooltip-custom {
+  background: rgba(100, 100, 100, 0.8);
   border-radius: 4px;
-}
-
-.title {
   padding: 10px;
-  color: #959da5;
-}
-
-.list {
-  list-style: none;
-  display: flex;
-}
-
-.list li {
-  padding: 5px 10px;
-  flex: 1;
-  color: #fff;
-  margin: 0;
-  min-width: 90px;
-}
-
-.list li::before {
-  content: none;
-}
-
-.label {
-  color: #dfe2e5;
-  font-weight: 600;
-}
-
-.value {
-  color: #959da5;
 }
 
 </style>
