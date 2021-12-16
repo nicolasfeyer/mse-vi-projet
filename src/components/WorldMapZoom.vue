@@ -20,7 +20,7 @@
       />
     </div>
     <div v-if="showGraphCountry" style="width: 100%; height: 100%; position: fixed; top: 0; left: 0;">
-      <WorldChart :data='worldData' :country='"CH"' :dataType='dataType'/>
+      <WorldChart :data='worldData' :country='"CH"' :dataType="dataType !== 'income_level' ? dataType:'population'"/>
     </div>
     <div v-if="showGraphFull" style="width: 100%; height: 100%; position: fixed; top: 0; left: 0;">
       <WorldFullChart :data='worldData' :year='yearSelect'/>
@@ -31,24 +31,24 @@
         <b-col col>
           <b-card style="border: none; background-color: rgba(0,0,0,0)">
             <b-button v-shortkey="['1']" pill variant="outline-secondary" @shortkey="changeData('population')"
-                      :class="{ top_but: !isActiveBut['population'], top_but_select: isActiveBut['population'] }"
+                      :class="{ data_button: !isActiveBut['population'], data_button_select: isActiveBut['population'] }"
                       @click="changeData('population')">Population
             </b-button>
             <b-button v-shortkey="['2']" pill variant="outline-secondary" @shortkey="changeData('pop_density')"
-                      :class="{ top_but: !isActiveBut['pop_density'], top_but_select: isActiveBut['pop_density'] }"
+                      :class="{ data_button: !isActiveBut['pop_density'], data_button_select: isActiveBut['pop_density'] }"
                       @click="changeData('pop_density')">Population density
             </b-button>
             <b-button v-shortkey="['3']" pill variant="outline-secondary" @shortkey="changeData('net_migration')"
-                      :class="{ top_but: !isActiveBut['net_migration'], top_but_select: isActiveBut['net_migration'] }"
+                      :class="{ data_button: !isActiveBut['net_migration'], data_button_select: isActiveBut['net_migration'] }"
                       @click="changeData('net_migration')">Net migration
             </b-button>
             <b-button v-shortkey="['4']" pill variant="outline-secondary" @shortkey="changeData('migration_perc')"
-                      :class="{ top_but: !isActiveBut['migration_perc'], top_but_select: isActiveBut['migration_perc'] }"
+                      :class="{ data_button: !isActiveBut['migration_perc'], data_button_select: isActiveBut['migration_perc'] }"
                       @click="changeData('migration_perc')">Migration percentage
             </b-button>
             <b-button v-if="!showGraphCountry" v-shortkey="['5']" pill variant="outline-secondary"
                       @shortkey="changeData('incomeLevel')"
-                      :class="{ top_but: !isActiveBut['incomeLevel'], top_but_select: isActiveBut['incomeLevel'] }"
+                      :class="{ data_button: !isActiveBut['incomeLevel'], data_button_select: isActiveBut['incomeLevel'] }"
                       @click="changeData('incomeLevel')">Income Level
             </b-button>
           </b-card>
@@ -56,13 +56,18 @@
       </b-row>
     </div>
     <!-- Bouton de changement de vue -->
-    <div class="justify-content-md-center" style="position: absolute; top:0px; right:10px ">
+    <div class="justify-content-md-center" style="position: absolute; top:0px; right:10px; /*background-color: rgba(255, 255, 255,0.9);*/">
       <b-card style="border: none; background-color: rgba(0,0,0,0)">
+
         <b-button pill variant="outline-secondary"
-                  :class="{ top_but: !showGraphCountry, top_but_select: showGraphCountry }"
+                  :class="{ mode_button: !showMap, mode_button_select: showMap }"
+                  @click="switchMap">Map
+        </b-button>
+        <b-button pill variant="outline-secondary"
+                  :class="{ mode_button: !showGraphCountry, mode_button_select: showGraphCountry }"
                   @click="switchShowGraphCountry">Graph Country
         </b-button>
-        <b-button pill variant="outline-secondary" :class="{ top_but: !showGraphFull, top_but_select: showGraphFull }"
+        <b-button pill variant="outline-secondary" :class="{ mode_button: !showGraphFull, mode_button_select: showGraphFull }"
                   @click="switchShowGraphFull">Graph Full
         </b-button>
       </b-card>
@@ -130,6 +135,7 @@ export default {
       map,
       showGraphFull: false,
       showGraphCountry: false,
+      showMap: true,
       zoomFactor: 0.8,
       minSize: 1000,
       maxSize: 15000,
@@ -184,12 +190,19 @@ export default {
   methods: {
     switchShowGraphCountry() {
       this.showGraphFull = false;
+      this.showMap = false;
       this.showGraphCountry = !this.showGraphCountry;
     },
     switchShowGraphFull() {
       this.showGraphCountry = false;
+      this.showMap = false;
       this.changeData('net_migration');
       this.showGraphFull = !this.showGraphFull;
+    },
+    switchMap(){
+      this.showGraphCountry = false;
+      this.showGraphFull = false;
+      this.showMap = !this.showMap;
     },
     changeIsOpen(val) {
       this.isSidebarOpen = val;
@@ -237,6 +250,7 @@ export default {
      - display sidebar with info
     --------------------------*/
     clickCountry(elem) {
+      console.log(elem)
       this.clickedCountryData = this.worldData[this.yearSelect][elem.id.toUpperCase()]
       this.clickCountryElem = elem.id.toUpperCase();
       this.drawMap();
@@ -415,22 +429,42 @@ export default {
   white-space: nowrap;
 }
 
-.top_but {
+.data_button {
   margin-left: 5px;
   margin-right: 5px;
   background-color: #ffffff !important;
   color: #555555 !important;
 }
 
-.top_but:hover {
+.data_button:hover {
   background-color: #555555 !important;
   color: #ffffff !important;
 }
 
-.top_but_select {
+.data_button_select {
   margin-left: 5px;
   margin-right: 5px;
   background-color: #555555 !important;
+  color: #ffffff !important;
+}
+
+
+.mode_button {
+  margin-left: 5px;
+  margin-right: 5px;
+  background-color: #ffffff !important;
+  color: #777777 !important;
+}
+
+.mode_button:hover {
+  background-color: #777777 !important;
+  color: #ffffff !important;
+}
+
+.mode_button_select {
+  margin-left: 5px;
+  margin-right: 5px;
+  background-color: #777777 !important;
   color: #ffffff !important;
 }
 </style>
