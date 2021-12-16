@@ -1,7 +1,7 @@
 <template>
   <div style='width:100%; height:100%; padding:100px 50px;'>
     <span style="margin: 10px" v-for="country in countrySelect" :key="country">
-      <b-button variant="outline-primary" @click="removeCountry(country)">{{ data[1990][country].country }} X
+      <b-button class="btn-custom" @click="removeCountry(country)">{{ data[1990][country].country }} X
       </b-button>
     </span>
     <br/>
@@ -170,6 +170,19 @@ export default {
   background: rgba(100, 100, 100, 0.8);
   border-radius: 4px;
   padding: 10px;
+}
+
+.btn-custom{
+  background-color: white!important;;
+  color: #3498db!important;;
+  border-color: #3498db!important;;
+}
+
+
+.btn-custom:hover{
+  background-color: #3498db!important;
+  border-color: #3498db!important;;
+  color:white!important;;
 }
 
 </style>
