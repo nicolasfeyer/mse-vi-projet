@@ -20,7 +20,8 @@
       />
     </div>
     <div v-if="showGraphCountry" style="width: 100%; height: 100%; position: fixed; top: 0; left: 0;">
-      <WorldChart :data='worldData' :country='"CH"' :isoToName="isoToName" :dataType="dataType !== 'income_level' ? dataType:'population'"/>
+      <WorldChart :data='worldData' :country='"CH"' :isoToName="isoToName"
+                  :dataType="dataType !== 'income_level' ? dataType:'population'"/>
     </div>
     <div v-if="showGraphFull" style="width: 100%; height: 100%; position: fixed; top: 0; left: 0;">
       <WorldFullChart :data='worldData' :year='yearSelect'/>
@@ -94,6 +95,9 @@
     <SideBar v-if="this.clickedCountryData && !showGraphFull && !showGraphCountry" :isOpen.sync="isSidebarOpen"
              @change="changeIsOpen"
              :countryData="this.clickedCountryData"></SideBar>
+
+    <div class="copyright"><a href="https://www.kaggle.com/eliasdabbas/migration-data-worldbank-1960-2018"
+                              target="_blank">Data source</a></div>
   </div>
 
 </template>
@@ -490,5 +494,11 @@ export default {
   margin-right: 5px;
   background-color: #000000 !important;
   color: #ffffff !important;
+}
+
+.copyright {
+  position: absolute;
+  bottom: 0;
+  font-size: 10px;
 }
 </style>
