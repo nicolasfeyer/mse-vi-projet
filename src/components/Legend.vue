@@ -74,7 +74,7 @@
     <div v-if="isActiveBut['incomeLevel'] && !showGraph" class="justify-content-md-center"
          style="position: absolute; left:10px; bottom:130px; width:110px">
       <b-container>
-        <b-card class="legend_card">
+        <b-card class="legend_card" style="min-width: 130px;">
           <span>{{this.legend_text}}</span>
           <b-row>
             <b-col cols="5" style="display: flex; justify-content: end; padding: 3px;">
