@@ -58,6 +58,16 @@
               </div>
             </b-col>
           </b-row>
+          <b-row v-if="isActiveBut['migration_perc'] || isActiveBut['net_migration']">
+            <b-col cols="5" style="display: flex; justify-content: end; padding: 3px;">
+              <div style="width: 20px; height: 20px; background: black;"></div>
+            </b-col>
+            <b-col cols="6"  style="padding: 3px;">
+              <div class="legend_value">
+                No data
+              </div>
+            </b-col>
+          </b-row>
         </b-card>
       </b-container>
     </div>
@@ -74,6 +84,7 @@
                 <div style="width: 20px; height: 20px; background-color: hsl(40, 50%, 50%);"></div>
                 <div style="width: 20px; height: 20px; background-color: hsl(60, 50%, 50%);"></div>
                 <div style="width: 20px; height: 20px; background-color: hsl(100, 50%, 50%);"></div>
+                <div style="width: 20px; height: 20px; background-color: hsl(0, 0%, 0%);"></div>
               </div>
             </b-col>
             <b-col cols="7" style="padding: 3px;">
@@ -83,6 +94,7 @@
                 <div class="legend_value">Lower <br>middle</div>
                 <div class="legend_value">Upper <br>middle</div>
                 <div class="legend_value">High</div>
+                <div class="legend_value">No data</div>
               </div>
             </b-col>
           </b-row>
