@@ -1,32 +1,20 @@
 # migraph
 
-## Ideas
-
-https://morioh.com/p/735c37d666ad (SVG-Map)
-
-https://github.com/guastallaigor/vue-horizontal-timeline (Timeline)
-
-https://github.com/walkerz88/vue-simple-svg-map (World Map Component)
-
 ## Project setup
 ```
-npm install
-```
+# clone repository
+git clone git@github.com:nicolasfeyer/mse-vi-projet.git
+cd mse-vi-projet
 
-### Compiles and hot-reloads for development
-```
+# install dependencies
+npm i
+
+# run vuejs
 npm run serve
 ```
 
-### Compiles and minifies for production
-```
-npm run build
-```
+## Documentation
 
-### Lints and fixes files
-```
-npm run lint
-```
+[Rapport](https://github.com/nicolasfeyer/mse-vi-projet/blob/main/documentation/Rapport.pdf)
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+[Présentation](https://github.com/nicolasfeyer/mse-vi-projet/blob/main/documentation/Pr%C3%A9sentation.pdf)
