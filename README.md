@@ -12,6 +12,9 @@ npm i
 # run vuejs
 npm run serve
 ```
+## Online version
+
+[https://nicolasfeyer.ch/migraph](https://nicolasfeyer.ch/migraph)
 
 ## Documentation
 
