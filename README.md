@@ -1,4 +1,4 @@
-# migraph
+# MiGraph
 
 ## Project setup
 ```
